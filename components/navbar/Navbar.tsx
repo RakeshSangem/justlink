@@ -38,9 +38,7 @@ export default function Navbar(): JSX.Element {
   );
 }
 
-export function NavLink({ slug, text }: NavLinkProps): JSX.Element {
-  console.log(slug, text);
-
+export function NavLink({ slug, text }: NavLinkProps) {
   return (
     <li
       className={`${

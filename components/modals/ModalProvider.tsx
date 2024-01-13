@@ -12,7 +12,7 @@ const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
 export const useModal = () => {
   const context = useContext(ModalContext);
-  console.log('useModal called', context);
+
   if (!context) {
     throw new Error('useModal must be used within a ModalProvider');
   }
@@ -25,21 +25,15 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const openModal = () => {
     setIsOpen(true);
-    console.log('openmodal caleed in modalprovider');
+    document.body.style.overflow = 'hidden';
   };
-
   const closeModal = () => {
     setIsOpen(false);
-  };
-
-  const modalContextValue: ModalContextProps = {
-    isOpen,
-    openModal,
-    closeModal,
+    document.body.style.overflow = '';
   };
 
   return (
-    <ModalContext.Provider value={modalContextValue}>
+    <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
       {children}
     </ModalContext.Provider>
   );

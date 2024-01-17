@@ -6,9 +6,15 @@ interface ModalProps {
   onClose: () => void;
   opemModal?: () => void;
   children: React.ReactNode;
+  title?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export default function Modal({
+  isOpen,
+  onClose,
+  children,
+  title,
+}: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleEscape = (e: KeyboardEvent) => {
@@ -43,25 +49,32 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <>
       <div className="fixed inset-0 flex items-center justify-center z-[999]">
         {/* Background Overlay */}
-        <div className="fixed inset-0 bg-black opacity-50" onClick={onClose} />
+        <div
+          className="fixed inset-0 bg-slate-300/10 transition-opacity duration-300"
+          onClick={onClose}
+        />
 
         {/* Modal Container */}
         <div
           ref={modalRef}
-          className="fixed duration-700 h-screen w-screen backdrop-blur-md"
+          className="fixed duration-700 h-screen w-screen backdrop-blur-sm"
           onClick={handleClickBackdrop}
         >
           {/* Modal Content */}
-          <div className="flex items-center justify-center h-full">
-            <div className="bg-black rounded-md shadow-md text-white border border-zinc-800">
-              <div className="flex items-center justify-between gap-8 border-b border-white/20 p-5">
-                <h2 className="text-xl font-normal tracking-wide">
-                  Delete your project
-                </h2>
+          <div
+            className={`flex items-center justify-center h-full w-full ${
+              isOpen ? 'scale-100' : 'scale-0'
+            } transition-transform duration-700`}
+          >
+            <div className="bg-black relative rounded-md shadow-md text-white border border-zinc-800">
+              <div className="flex relative items-center justify-between gap-8 border-b border-white/20 p-4">
+                {title && (
+                  <h2 className="text-xl font-normal tracking-wide">{title}</h2>
+                )}{' '}
                 <button
                   onClick={onClose}
                   type="button"
-                  className="flex h-7 w-7 p-1 items-center justify-center rounded-full border border-[#222222] hover:bg-[#222222]"
+                  className="flex absolute top-3 right-3 h-7 w-7 p-1 items-center justify-center rounded-full hover:bg-[#222222]"
                 >
                   <Close />
                 </button>
@@ -81,6 +94,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       </div>
     </>
   ) : null;
-};
-
-export default Modal;
+}

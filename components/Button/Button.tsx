@@ -35,13 +35,13 @@ export function Button({
     <button
       type={props.onClick ? 'button' : 'submit'}
       className={cn(
-        'flex h-10 w-full items-center justify-center space-x-2 rounded-md border px-4 text-sm transition-all focus:outline-none',
+        'flex h-10 w-full items-center justify-center space-x-2 rounded-md border px-4 text-sm transition-all focus:outline-none focus:ring-[3px] focus:ring-blue-500',
         props.disabled || loading
-          ? 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400'
+          ? 'cursor-not-allowed border-gray-200 bg-white/90 text-gray-500'
           : {
               'bg-white text-black hover:bg-white/90 hover:text-black/90':
                 variant === 'primary',
-              'border-[#ADADAD] bg-black text-white/80 hover:border-white hover:text-white':
+              'border-[#646363] text-white/80 hover:border-white hover:bg-black hover:text-white':
                 variant === 'secondary',
               'border-blue-500 bg-blue-500 text-white hover:bg-white hover:text-blue-500':
                 variant === 'success',

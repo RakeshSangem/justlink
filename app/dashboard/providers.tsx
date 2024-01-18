@@ -1,5 +1,4 @@
 'use client';
-
 import { ReactNode } from 'react';
 import ModalProvider from '@/components/modals/ModalProvider';
 

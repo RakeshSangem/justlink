@@ -27,7 +27,7 @@ export default function NavTabs() {
       <ul className="flex items-center gap-x-4">
         {navItems.map((navItem) => (
           <Link key={navItem.name} className="relative p-1" href={navItem.href}>
-            <div className="rounded-md px-3 py-2 transition-all duration-75 active:bg-gray-200">
+            <div className="rounded-md px-3 py-2 transition-all duration-75 active:bg-gray-800">
               <p
                 className={`text-sm hover:text-white/80 ${
                   path === navItem.href ? 'text-white' : 'text-white/50'

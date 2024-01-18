@@ -40,7 +40,8 @@ export async function GET(req: Request, res: Response) {
   if (req.method === 'GET') {
     try {
       await connect();
-      const links = await Link.find({});
+      const [...links] = await Link.find({});
+      console.log('links from route', links);
       return Response.json(links);
     } catch (error) {
       console.error('Error getting links:', error);
@@ -53,10 +54,10 @@ export async function GET(req: Request, res: Response) {
 
 export async function PUT(req: Request, res: Response) {
   if (req.method === 'PUT') {
-    
     try {
       await connect();
       const body = await req.json();
+      console.log('body from route', body);
       const updatedLink = await Link.findByIdAndUpdate(body._id, body, {
         new: true,
       });

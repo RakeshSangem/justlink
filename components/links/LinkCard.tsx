@@ -4,8 +4,8 @@ import EditIcon from '../icons/Edit';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/swr/use-links';
 import External from '../icons/External';
-import AddEditLinkModal from '../modals/EditLinkModal';
 import { useState } from 'react';
+import EditLinkModal from '../modals/EditLinkModal';
 
 export interface LinkCardProps {
   _id: string;
@@ -71,7 +71,7 @@ export default function LinkCard({ link }: { link: LinkCardProps }) {
         </button>
       </div>
 
-      <AddEditLinkModal
+      <EditLinkModal
         isOpen={isEditModalOpen}
         onClose={handleCloseEditModal}
         linkData={link}

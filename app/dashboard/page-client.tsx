@@ -1,15 +1,24 @@
 'use client';
-
 import { Button } from '@/components/button/Button';
-import AddEditLinkModal from '@/components/modals/AddEditLinkModal';
-import { useModal } from '@/components/modals/ModalProvider';
+import AddLinkModal from '@/components/modals/AddLinkModal';
+// ParentComponent.tsx
+import React, { useState } from 'react';
 
-export default function PageClient() {
-  const { openModal } = useModal();
+export default function ParentComponent() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="">
-      <Button text="Add link" onClick={openModal} />
-      <AddEditLinkModal />
+    <div>
+      <Button onClick={openModal} text="Add a Link" />
+      <AddLinkModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }

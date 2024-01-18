@@ -1,9 +1,9 @@
 import useLinks from '@/lib/swr/use-links';
 import { Button } from '../button/Button';
-import Modal from './Modal';
 import { useState } from 'react';
+import Modal from './Modal';
 
-export default function AddEditLinkModal({
+export default function EditLinkModal({
   isOpen,
   onClose,
   linkData,
@@ -49,9 +49,11 @@ export default function AddEditLinkModal({
       });
       console.log('res', res);
 
-      await mutate((links: any) => {
-        return [...links, link];
-      }, false);
+      // await mutate((links: any) => {
+      //   return [...links, link];g
+      // }, false);
+
+      await mutate();
 
       if (res.ok) {
         setLoading(false);

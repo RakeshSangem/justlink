@@ -1,6 +1,6 @@
 'use client';
 
-import LinkCard from '@/components/links/link';
+import LinkCard from '@/components/links/LinkCard';
 import useLinks from '@/lib/swr/use-links';
 import { Key } from 'react';
 

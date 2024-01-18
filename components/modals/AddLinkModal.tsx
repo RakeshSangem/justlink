@@ -21,7 +21,7 @@ export default function AddLinkModal({
     url: '',
   });
 
-  const handleSave = async () => {
+  const handleFormSubmission = async () => {
     setLoading(true);
 
     try {
@@ -51,7 +51,13 @@ export default function AddLinkModal({
 
   return (
     <Modal title={title} isOpen={isOpen} onClose={onClose}>
-      <div className="p-3 flex flex-col gap-y-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleFormSubmission();
+        }}
+        className="p-3 flex flex-col gap-y-5"
+      >
         <div className="flex flex-col space-y-2 min-w-96">
           <label
             htmlFor="title"
@@ -92,15 +98,15 @@ export default function AddLinkModal({
         </div>
         <div className="flex">
           <Button
+            type="submit"
             disabled={
               !link.title || !link.url || !link.title.trim() || !link.url.trim()
             }
             text="Save"
             loading={loading}
-            onClick={handleSave}
           />
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

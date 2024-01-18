@@ -74,7 +74,13 @@ export default function EditLinkModal({
     >
       {/* <SettingsModalContent /> */}
 
-      <div className="p-3 flex flex-col gap-y-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+        className="p-3 flex flex-col gap-y-5"
+      >
         <div className="flex flex-col space-y-2 min-w-96">
           <label
             htmlFor="title"
@@ -118,10 +124,10 @@ export default function EditLinkModal({
             disabled={!isLinkChanged}
             text="Save changes"
             loading={loading}
-            onClick={handleSave}
+            type="submit"
           />
         </div>
-      </div>
+      </form>
     </Modal>
   );
 }

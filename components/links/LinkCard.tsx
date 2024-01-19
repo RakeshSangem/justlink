@@ -6,6 +6,7 @@ import { fetcher } from '@/lib/swr/use-links';
 import External from '../icons/External';
 import { useState } from 'react';
 import EditLinkModal from '../modals/EditLinkModal';
+import { toast } from 'sonner';
 
 export interface LinkCardProps {
   _id: string;
@@ -16,10 +17,7 @@ export interface LinkCardProps {
 export default function LinkCard({ link }: { link: LinkCardProps }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const { data, mutate } = useSWR('/api/links', fetcher, {
-    revalidateOnMount: true,
-    keepPreviousData: true,
-  });
+  const { data, mutate } = useSWR('/api/links', fetcher);
 
   const handleOpenEditModal = () => setIsEditModalOpen(true);
   const handleCloseEditModal = () => setIsEditModalOpen(false);
@@ -34,8 +32,8 @@ export default function LinkCard({ link }: { link: LinkCardProps }) {
       await fetch(`/api/links/${link._id}`, {
         method: 'DELETE',
       });
-      mutate();
-      alert('Successfully deleted the item.');
+
+      toast.success('Link deleted successfully');
     } catch (e) {
       mutate(data, false);
       alert((e as Error).message);

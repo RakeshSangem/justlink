@@ -2,6 +2,7 @@ import useLinks from '@/lib/swr/use-links';
 import { Button } from '../button/Button';
 import { useState } from 'react';
 import Modal from './Modal';
+import { toast } from 'sonner';
 
 export default function EditLinkModal({
   isOpen,
@@ -58,6 +59,7 @@ export default function EditLinkModal({
       if (res.ok) {
         setLoading(false);
         onClose();
+        toast.success('Link updated successfully');
       } else {
         throw new Error('Failed to save link');
       }

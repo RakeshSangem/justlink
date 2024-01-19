@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from './Modal';
 import useLinks from '@/lib/swr/use-links';
 import { Button } from '../button/Button';
+import { toast } from 'sonner';
 
 interface AddLinkModalProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export default function AddLinkModal({
           url: '',
         });
         onClose();
+        toast.success('Link added successfully');
       } else {
         throw new Error('Failed to save link');
       }

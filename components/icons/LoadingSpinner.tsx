@@ -15,7 +15,7 @@ export default function LoadingSpinner({ className }: { className?: string }) {
           <div
             key={i}
             style={{
-              animationDelay: `${-1.2 + 0.1 * i}s`,
+              animationDelay: `${-1.2 + 0.1 * i}s `,
               background: 'gray',
               position: 'absolute',
               borderRadius: '1rem',

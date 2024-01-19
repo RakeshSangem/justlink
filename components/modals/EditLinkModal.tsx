@@ -3,6 +3,7 @@ import { Button } from '../button/Button';
 import { useState } from 'react';
 import Modal from './Modal';
 import { toast } from 'sonner';
+import { isUrlValid } from '@/lib/utils';
 
 export default function EditLinkModal({
   isOpen,
@@ -33,6 +34,12 @@ export default function EditLinkModal({
   const handleSave = async () => {
     setLoading(true);
 
+    if (!isUrlValid(link.url)) {
+      toast.error('Please enter a valid URL');
+      setLoading(false);
+      return;
+    }
+
     try {
       if (!isLinkChanged) {
         // No changes, close the modal without sending a request
@@ -48,7 +55,6 @@ export default function EditLinkModal({
         },
         body: JSON.stringify(link),
       });
-      console.log('res', res);
 
       // await mutate((links: any) => {
       //   return [...links, link];g

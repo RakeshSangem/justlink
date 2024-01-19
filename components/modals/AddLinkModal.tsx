@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from './Modal';
 import useLinks from '@/lib/swr/use-links';
 import { Button } from '../button/Button';
 import { toast } from 'sonner';
+import { isUrlValid } from '@/lib/utils';
 
 interface AddLinkModalProps {
   isOpen: boolean;
@@ -24,6 +25,12 @@ export default function AddLinkModal({
 
   const handleFormSubmission = async () => {
     setLoading(true);
+
+    if (!isUrlValid(link.url)) {
+      toast.error('Please enter a valid URL');
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch('/api/links', {

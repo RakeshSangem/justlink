@@ -1,23 +1,32 @@
-import User from '@/models/user.model';
-import { NextRequest, NextResponse } from 'next/server';
-import connect from '@/db';
+import { db } from '@/db';
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 
 // get the user from the database
+export const GET = auth(async (req) => {
+  if (req.auth) {
+    const user = await db.user.findUnique({
+      where: {
+        id: req.auth.user?.id,
+      },
+    });
 
-
-
-
-
+    return NextResponse.json({ user });
+  }
+});
 
 export async function POST(req: Request, res: NextResponse) {
   if (req.method === 'POST') {
     try {
-      await connect();
       const body = await req.json();
 
       console.log('body from route', body);
 
-      const existingUser = await User.findOne({ email: body.email });
+      const existingUser = await db.user.findUnique({
+        where: {
+          email: body.email,
+        },
+      });
 
       if (existingUser) {
         return NextResponse.json(
@@ -28,7 +37,14 @@ export async function POST(req: Request, res: NextResponse) {
         );
       }
 
-      const user = await User.create(body);
+      const user = await db.user.create({
+        data: {
+          name: body.name,
+          email: body.email,
+          avatar: body.image,
+          username: body.username,
+        },
+      });
 
       return NextResponse.json(
         {

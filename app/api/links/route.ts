@@ -1,72 +1,79 @@
-// pages/api/link.js
-import connect from '@/db';
-import Link from '@/models/link.model';
+import { auth } from '@/auth';
+import { db } from '@/db';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: Request, res: Response) {
-  if (req.method === 'POST') {
-    try {
-      await connect();
-      const body = await req.json();
+export const dynamic = 'force-dynamic';
 
-      const newLink = new Link({
+// GET /api/links - Get all links
+export const GET = auth(async (req) => {
+  const userInfo = req?.auth;
+
+  console.log('userInfo', userInfo);
+
+  try {
+    if (!userInfo) {
+      return NextResponse.json('Unauthorized', {
+        status: 401,
+      });
+    }
+
+    const userId = await db.user.findUnique({
+      where: {
+        email: userInfo?.user?.email as any,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    console.log('userId', userId);
+
+    const links = await db.link.findMany({
+      where: {
+        userId: userId?.id,
+      },
+    });
+
+    console.log('links router:', links);
+
+    return NextResponse.json(links);
+  } catch (error) {
+    return NextResponse.json(`Internal Server Error:${error}`, { status: 500 });
+  }
+});
+
+// POST /api/links - Create a new link
+export const POST = auth(async (req) => {
+  const userInfo = req?.auth;
+
+  try {
+    const body = await req.json();
+
+    if (!userInfo) {
+      return NextResponse.json('Unauthorized', {
+        status: 401,
+      });
+    }
+
+    const userId = await db.user.findUnique({
+      where: {
+        email: userInfo?.user?.email ?? undefined,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const newLink = await db.link.create({
+      data: {
         title: body.title,
         url: body.url,
-      });
+        userId: userId?.id,
+      },
+    });
 
-      const savedLink = await newLink.save();
-
-      return Response.json(savedLink);
-
-      // // Validate and create a new link
-      // const newLink = new Link({
-      //   title,
-      //   url,
-      //   // other fields
-      // });
-
-      // const savedLink = await newLink.save();
-
-      // res.status(201).json(savedLink);
-    } catch (error) {
-      console.error('Error creating link:', error);
-      // res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else {
-    // res.status(405).json({ error: 'Method Not Allowed' });
+    return NextResponse.json(newLink, { status: 201 });
+  } catch (error) {
+    return NextResponse.json('Internal Server Error', { status: 500 });
   }
-}
-
-export async function GET(req: Request, res: Response) {
-  if (req.method === 'GET') {
-    try {
-      await connect();
-      const [...links] = await Link.find({});
-      console.log('links from route', links);
-      return Response.json(links);
-    } catch (error) {
-      console.error('Error getting links:', error);
-      // res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else {
-    // res.status(405).json({ error: 'Method Not Allowed' });
-  }
-}
-
-export async function PUT(req: Request, res: Response) {
-  if (req.method === 'PUT') {
-    try {
-      await connect();
-      const body = await req.json();
-      console.log('body from route', body);
-      const updatedLink = await Link.findByIdAndUpdate(body._id, body, {
-        new: true,
-      });
-      return Response.json(updatedLink);
-    } catch (error) {
-      console.error('Error updating link:', error);
-      // res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else {
-    // res.status(405).json({ error: 'Method Not Allowed' });
-  }
-}
+});

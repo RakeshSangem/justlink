@@ -1,12 +1,14 @@
-import connect from '@/db';
-import Link from '@/models/link.model';
-import Error from 'next/error';
+import { db } from '@/db';
 
 import { NextResponse } from 'next/server';
 
 export async function GET({ linkId }: any) {
   try {
-    const link = await Link.findById(linkId);
+    const link = await db.link.findUnique({
+      where: {
+        id: linkId,
+      },
+    });
 
     if (!link) {
       return NextResponse.json('Link not found', { status: 404 });
@@ -19,14 +21,16 @@ export async function GET({ linkId }: any) {
 }
 
 export async function DELETE(
-  request: Request,
+  req: Request,
   { params }: { params: { slug: string } }
 ) {
   const slug = params.slug;
 
-  await connect();
-
-  const deletedLink = await Link.findOneAndDelete({ _id: slug });
+  const deletedLink = await db.link.delete({
+    where: {
+      id: slug,
+    },
+  });
 
   if (!deletedLink) {
     return NextResponse.json(
@@ -43,7 +47,7 @@ export async function DELETE(
   );
 }
 
-// create put endpoint
+// PUT /api/links/[slug] - Update a link
 export async function PUT(
   request: Request,
   { params }: { params: { slug: string } }
@@ -52,12 +56,19 @@ export async function PUT(
     const slug = params.slug;
     const body = await request.json();
 
-    await connect();
+    console.log('slug', slug);
+    console.log('body', body);
 
-    const updatedLink = await Link.findOneAndUpdate(
-      { _id: slug },
-      { title: body.title, url: body.url }
-    );
+    const updatedLink = await db.link.update({
+      where: {
+        id: slug,
+      },
+      data: {
+        ...body,
+      },
+    });
+
+    console.log('updatedLink', updatedLink);
 
     if (!updatedLink) {
       return NextResponse.json(
@@ -77,3 +88,39 @@ export async function PUT(
     return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
+
+// export async function PATCH(
+//   request: Request,
+//   { params }: { params: { slug: string } }
+// ) {
+//   try {
+//     const slug = params.slug;
+//     const body = await request.json();
+
+//     const updatedLink = await db.link.update({
+//       where: {
+//         id: slug,
+//       },
+//       data: {
+//         ...body,
+//       },
+//     });
+
+//     if (!updatedLink) {
+//       return NextResponse.json(
+//         { success: false, message: 'Link not found' },
+//         { status: 404 }
+//       );
+//     }
+
+//     return NextResponse.json(
+//       { success: true, updatedLink },
+//       {
+//         status: 200,
+//       }
+//     );
+//   } catch (error: any) {
+//     // Handle any errors and return a 500 status code
+//     return NextResponse.json({ success: false, error }, { status: 500 });
+//   }
+// }

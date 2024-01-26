@@ -14,7 +14,7 @@ export default function EditLinkModal({
   onClose: () => void;
   linkData: {
     title: string;
-    _id: string;
+    id: string;
     url: string;
   };
 }) {
@@ -48,7 +48,7 @@ export default function EditLinkModal({
         return;
       }
 
-      const res = await fetch(`/api/links/${linkData._id}`, {
+      const res = await fetch(`/api/links/${linkData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

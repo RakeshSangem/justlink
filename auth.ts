@@ -1,7 +1,6 @@
-import NextAuth, { Session } from 'next-auth';
+import NextAuth from 'next-auth';
 import authConfig from './auth.config';
-import connect from './db';
-import User from './models/user.model';
+import { db } from './db';
 
 export const {
   handlers: { GET, POST },
@@ -10,15 +9,19 @@ export const {
   signOut,
 } = NextAuth({
   ...authConfig,
-  session: {},
   callbacks: {
     async signIn({ user, account }: { user: any; account: any }) {
       if (account?.provider === 'google') {
         try {
-          const { name, email, image } = await user;
-          await connect();
-          const userExists = await User.findOne({ email });
+          console.log('user from google', user);
 
+          const { name, email, image } = await user;
+          const userExists = await db.user.findUnique({
+            where: { email },
+            select: {
+              id: true,
+            },
+          });
           if (!userExists) {
             const res = await fetch('http://localhost:3000/api/user', {
               method: 'POST',
@@ -29,13 +32,15 @@ export const {
                 name,
                 email,
                 image,
+                username: name.split(' ').join('').toLowerCase(),
               }),
             });
-
             if (!res.ok) {
               throw new Error('Failed to create user');
             }
           }
+          console.log('userExists', userExists);
+          return true;
         } catch (err) {
           console.error(err);
           return false;
@@ -44,12 +49,10 @@ export const {
       if (account?.provider === 'github') {
         try {
           console.log('user from github', user);
-
           const { name, email, image } = await user;
-          await connect();
-
-          const userExists = await User.findOne({ email });
-
+          const userExists = await db.user.findUnique({
+            where: { email },
+          });
           if (!userExists) {
             const res = await fetch('http://localhost:3000/api/user', {
               method: 'POST',
@@ -62,12 +65,10 @@ export const {
                 image,
               }),
             });
-
             if (!res.ok) {
               throw new Error('Failed to create user');
             }
           }
-
           return true;
         } catch (err) {
           console.error(err);

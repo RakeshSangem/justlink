@@ -1,17 +1,9 @@
-import mongoose from 'mongoose';
+import { PrismaClient } from '@prisma/client';
 
-const connect = async () => {
-  // we'll do this check if we want to avoid multiple connections
-  // if (mongoose.connections[0].readyState) {
-  //   console.log('Already connected.');
-  //   return;
-  // }
-  try {
-    await mongoose.connect('mongodb://localhost:27017');
-    console.log('Connected to MongoDB.');
-  } catch (error) {
-    console.log(error);
-  }
-};
+declare global {
+  var prisma: PrismaClient | undefined;
+}
 
-export default connect;
+export const db = globalThis.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = db;

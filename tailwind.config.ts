@@ -15,6 +15,7 @@ const config: Config = {
       },
       animation: {
         spinner: 'spinner 1.2s linear infinite',
+        'slide-up-fade': 'slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       },
       keyframes: {
         spinner: {
@@ -29,6 +30,10 @@ const config: Config = {
           '100%': {
             transform: 'translateX(100%)',
           },
+        },
+        'slide-up-fade': {
+          '0%': { opacity: '0', transform: 'translateY(5px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

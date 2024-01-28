@@ -2,8 +2,19 @@ import { ReactNode } from 'react';
 import NavTabs from '@/components/nav-tabs';
 import Providers from './providers';
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
+import Logout from '@/components/auth/Logout';
+import { currentUser } from '@/lib/auth/auth';
+import Image from 'next/image';
+import { Button } from '@/components/button/Button';
+import UserInfo from '@/components/UserInfo';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const userInfo = await currentUser();
+
   return (
     <Providers>
       <section className="min-h-screen mx-auto">
@@ -11,11 +22,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <MaxWidthWrapper>
             <nav className="flex justify-between items-center w-full sm:px-8 py-4  bg-black">
               <span className="text-2xl font-bold">JustLink</span>
-              <ul className="flex">
-                <li className="mx-2">
-                  <a href="/api/auth/logout">Logout</a>
-                </li>
-              </ul>
+              {/* user avatar with the image and dropdown or popover */}
+              {userInfo && <UserInfo user={userInfo} />}
             </nav>
             <div className="max-w-7xl sm:px-8 mx-auto bg-black">
               <div className="w-full sm:w-1/2">

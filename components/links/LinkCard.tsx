@@ -9,7 +9,7 @@ import EditLinkModal from '../modals/EditLinkModal';
 import { toast } from 'sonner';
 
 export interface LinkCardProps {
-  _id: string;
+  id: string;
   title: string;
   url: string;
 }
@@ -24,14 +24,16 @@ export default function LinkCard({ link }: { link: LinkCardProps }) {
 
   const deleleLink = async () => {
     const updatedData = data.filter(
-      (item: { _id: string }) => item._id !== link._id
+      (item: { _id: string }) => item._id !== link.id
     );
     await mutate(updatedData, false);
 
     try {
-      await fetch(`/api/links/${link._id}`, {
+      await fetch(`/api/links/${link.id}`, {
         method: 'DELETE',
       });
+
+      mutate();
 
       toast.success('Link deleted successfully');
     } catch (e) {

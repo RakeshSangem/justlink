@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import AddLinkModal from '@/components/modals/AddLinkModal';
 

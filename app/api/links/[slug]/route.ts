@@ -2,6 +2,7 @@ import { db } from '@/db';
 
 import { NextResponse } from 'next/server';
 
+// GET /api/links/[slug] - Get a single link
 export async function GET({ linkId }: any) {
   try {
     const link = await db.link.findUnique({
@@ -20,6 +21,7 @@ export async function GET({ linkId }: any) {
   }
 }
 
+// DELETE /api/links/[slug] - Delete a link
 export async function DELETE(
   req: Request,
   { params }: { params: { slug: string } }

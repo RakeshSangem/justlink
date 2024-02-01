@@ -15,7 +15,8 @@ export const GET = auth(async (req) => {
   }
 });
 
-export async function POST(req: Request, res: NextResponse) {
+// POST /api/user - Create a new user
+export const POST = auth(async (req) => {
   if (req.method === 'POST') {
     try {
       const body = await req.json();
@@ -66,4 +67,7 @@ export async function POST(req: Request, res: NextResponse) {
       );
     }
   }
-}
+
+  // Return a 405 Method Not Allowed response if the request method is not POST
+  return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
+});

@@ -1,34 +1,57 @@
+import { auth } from '@/auth';
+import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
 import { Button } from '@/components/button/Button';
+import { fetcher } from '@/lib/swr/use-links';
+import { redirect } from 'next/navigation';
+import useSWR from 'swr';
+import DesignClient from './design-client';
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+
+  if (!session) {
+    redirect('/login');
+    return;
+  }
+
+  const user = await fetch('http://localhost:3000/api/user');
+
   return (
-    <section className="w-full sm:w-1/2 py-5 flex flex-col gap-12">
-      <div className="bg-zinc-900 rounded-lg px-6 py-8">
-        <h3 className="text-lg font-normal pb-4">Profile</h3>
-        <div className="flex px-5 w-4/5 mx-auto py-2 gap-x-12 items-center justify-between">
-          <div className="w-[124px] shrink-0 h-[124px] border-2 border-white rounded-full overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdXDNSGjwJ1arYqlvYLMj2S8x1fhir6To_WA&usqp=CAU"
-              alt="user avatar"
-            />
+    <section className="relative max-w-7xl mx-auto px-2 sm:px-8 flex">
+      <div className="py-10 flex flex-col gap-y-4 w-full lg:w-3/5">
+        <MaxWidthWrapper>
+          <DesignClient user={JSON.parse(JSON.stringify(user))} />
+        </MaxWidthWrapper>
+      </div>
+      <div className="mx-auto relative">
+        {/* Mobile wrapper starts here */}
+        {/* <div
+          className="sticky left-0 w-[240px]  aspect-auto h-[460px] mt-10 rounded-[30px] p-2 border-black outline-2 outline outline-[#D8D8D8]/70 border-3 text-black"
+          style={{ transform: 'scale(1)', transformOrigin: 'top left' }}
+        >
+          <div className="bg-white h-full w-full flex flex-col gap-y-3 rounded-[23px] py-6 overflow-y-scroll">
+            <div className="w-16 shrink-0 h-16 mx-auto rounded-full bg-gray-200"></div>
+
+            <div className="text-center">
+              <h1 className="text-black font-semibold text-lg">
+                Rakesh Sangem
+              </h1>
+              <p className="text-black/50 font-light py-1 text-xs">
+                Frontend developer from INDIA
+              </p>
+            </div>
+            {links?.map((link: any) => (
+              <a
+                className="text-center text-xs font-medium w-5/6 mx-auto py-2 bg-black text-white rounded-full"
+                key={link._id}
+                target="_blank"
+                href={link.url}
+              >
+                {link.title}
+              </a>
+            ))}
           </div>
-          <div className="flex flex-col gap-y-5 w-2/3">
-            <Button text="Pick an Image" />
-            <Button variant="secondary" text="Remove" />
-          </div>
-        </div>
-        <div className="flex flex-col gap-3 mt-4">
-          <input
-            type="text"
-            placeholder="Name"
-            className="bg-[#D9D9D9]/5 w-full py-2 px-3 rounded-md"
-          />
-          <textarea
-            placeholder="Bio..."
-            className="bg-[#D9D9D9]/5 w-full py-2 px-3 rounded-md"
-          />
-        </div>
+        </div> */}
       </div>
     </section>
   );

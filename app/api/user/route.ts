@@ -2,16 +2,28 @@ import { db } from '@/db';
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 
-// get the user from the database
+// GET /api/user - Get the current user
 export const GET = auth(async (req) => {
   if (req.auth) {
-    const user = await db.user.findUnique({
-      where: {
-        id: req.auth.user?.id,
-      },
-    });
+    try {
+      const authUser = await req.auth?.user;
 
-    return NextResponse.json({ user });
+      const user = await db.user.findUnique({
+        where: { email: authUser?.email as string },
+      });
+
+      return NextResponse.json({ user });
+    } catch (error) {
+      return NextResponse.json(
+        {
+          error,
+          message: 'Internal Server Error',
+        },
+        {
+          status: 500,
+        }
+      );
+    }
   }
 });
 
@@ -69,5 +81,49 @@ export const POST = auth(async (req) => {
   }
 
   // Return a 405 Method Not Allowed response if the request method is not POST
+  return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
+});
+
+// PUT /api/user - Edit the current user
+export const PUT = auth(async (req) => {
+  const { name, bio } = await req.json();
+  if (req.method === 'PUT') {
+    try {
+      const authUser = await req.auth?.user;
+      console.log('authUser', authUser);
+      const body = await req.json();
+
+      const user = await db.user.update({
+        where: {
+          email: authUser?.email as string,
+        },
+        data: {
+          ...(name && { name }),
+          ...(bio && { bio }),
+        },
+      });
+
+      return NextResponse.json(
+        {
+          user,
+          message: 'User updated successfully!',
+        },
+        {
+          status: 200,
+        }
+      );
+    } catch (error) {
+      return NextResponse.json(
+        {
+          message: 'Internal Server Error',
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+  }
+
+  // Return a 405 Method Not Allowed response if the request method is not PUT
   return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
 });

@@ -1,3 +1,6 @@
+'use client';
+
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 interface NavItem {
@@ -9,6 +12,10 @@ const navItems: NavItem[] = [
   {
     label: 'Features',
     slug: 'features',
+  },
+  {
+    label: 'Dashboard',
+    slug: 'dashboard',
   },
   {
     label: 'Login',
@@ -26,13 +33,24 @@ interface NavLinkProps {
 }
 
 export default function Navbar(): JSX.Element {
+  const { data, status } = useSession();
+
+  if (status === 'loading')
+    return <div className="loadingGradient">Loading...</div>;
+
+  const authenticatedNavItems = data?.user
+    ? navItems.filter((item) => item.slug !== 'signup' && item.slug !== 'login')
+    : navItems.filter(
+        (item) => item.slug === 'signup' || item.slug === 'login'
+      );
+
   return (
     <nav className="flex w-full px-8 justify-between items-center py-8">
       <span className="text-xl font-semibold">JustLink</span>
       <ul className="flex gap-x-6 items-center">
-        {navItems.map(({ label, slug }: NavItem) => {
-          return <NavLink key={label} slug={slug} text={label} />;
-        })}
+        {authenticatedNavItems.map((item) => (
+          <NavLink key={item.slug} slug={item.slug} text={item.label} />
+        ))}
       </ul>
     </nav>
   );
@@ -42,7 +60,9 @@ export function NavLink({ slug, text }: NavLinkProps) {
   return (
     <li
       className={`${
-        slug === 'signup' ? 'bg-white text-black px-4 py-1.5 rounded-md' : ''
+        slug === 'signup' || slug === 'dashboard'
+          ? 'bg-white text-black px-4 py-1.5 rounded-md'
+          : ''
       }  font-medium text-sm`}
     >
       <Link href={`/${slug}`}>{text}</Link>

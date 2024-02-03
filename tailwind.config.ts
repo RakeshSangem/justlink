@@ -16,6 +16,7 @@ const config: Config = {
       animation: {
         spinner: 'spinner 1.2s linear infinite',
         'slide-up-fade': 'slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        shimmer: 'shimmer 1.5s ease infinite',
       },
       keyframes: {
         spinner: {

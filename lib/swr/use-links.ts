@@ -27,11 +27,7 @@ interface SWRError extends Error {
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function useLinks() {
-  const {
-    data: links,
-    isValidating,
-    mutate,
-  } = useSWR(`/api/links`, fetcher, {
+  const { data, isValidating, mutate } = useSWR(`/api/links`, fetcher, {
     revalidateOnFocus: false,
     dedupingInterval: 20000,
     keepPreviousData: true,
@@ -39,8 +35,10 @@ export default function useLinks() {
     revalidateOnReconnect: false,
   });
 
+  console.log('use links', typeof data);
+
   return {
-    links: links || [],
+    links: data || [],
     isValidating,
     mutate,
   };

@@ -14,13 +14,11 @@ export default async function Page() {
     return;
   }
 
-  const user = await fetch('http://localhost:3000/api/user');
-
   return (
     <section className="relative max-w-7xl mx-auto px-2 sm:px-8 flex">
       <div className="py-10 flex flex-col gap-y-4 w-full lg:w-3/5">
         <MaxWidthWrapper>
-          <DesignClient user={JSON.parse(JSON.stringify(user))} />
+          <DesignClient />
         </MaxWidthWrapper>
       </div>
       <div className="mx-auto relative">

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/button/Button';
 import { fetcher } from '@/lib/swr/use-links';
 import useSWR from 'swr';
+import { toast } from 'sonner';
 
 export default function DesignClient() {
   const { data, mutate, isLoading } = useSWR('/api/user', fetcher);
@@ -52,6 +53,7 @@ export default function DesignClient() {
 
       if (res.ok) {
         setButtonLoading(false);
+        toast.success('Updated successfully');
       }
 
       setIsDataModified(false);

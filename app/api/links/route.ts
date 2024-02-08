@@ -40,7 +40,7 @@ export const GET = auth(async (req) => {
   } catch (error) {
     return NextResponse.json(`Internal Server Error:${error}`, { status: 500 });
   }
-});
+}) as any;
 
 // POST /api/links - Create a new link
 export const POST = auth(async (req) => {
@@ -76,4 +76,4 @@ export const POST = auth(async (req) => {
   } catch (error) {
     return NextResponse.json('Internal Server Error', { status: 500 });
   }
-});
+}) as any;

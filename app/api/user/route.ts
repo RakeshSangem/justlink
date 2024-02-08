@@ -25,7 +25,7 @@ export const GET = auth(async (req) => {
       );
     }
   }
-});
+}) as any;
 
 // POST /api/user - Create a new user
 export const POST = auth(async (req) => {
@@ -82,16 +82,16 @@ export const POST = auth(async (req) => {
 
   // Return a 405 Method Not Allowed response if the request method is not POST
   return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
-});
+}) as any;
 
 // PUT /api/user - Edit the current user
 export const PUT = auth(async (req) => {
-  const { name, bio } = await req.json();
   if (req.method === 'PUT') {
     try {
       const authUser = await req.auth?.user;
       console.log('authUser', authUser);
-      const body = await req.json();
+
+      const { name, bio } = await req.json();
 
       const user = await db.user.update({
         where: {
@@ -126,4 +126,4 @@ export const PUT = auth(async (req) => {
 
   // Return a 405 Method Not Allowed response if the request method is not PUT
   return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
-});
+}) as any;

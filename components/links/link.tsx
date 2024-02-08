@@ -20,7 +20,7 @@ export default function LinkCard({ link }: { link: LinkCardProps }) {
           <EditIcon />
         </button>
         <button className="group h-6 w-6 grid p-1 rounded-sm duration-200 transition-colors place-items-center">
-          <DeleteIcon size={'w-4'} />
+          <DeleteIcon className={'w-4'} />
         </button>
       </div>
     </div>

@@ -1,7 +1,9 @@
-'use client';
 import { ReactNode } from 'react';
-import ModalProvider from '@/components/modals/ModalProvider';
+import { SessionProvider } from 'next-auth/react';
+import { auth } from '@/auth';
 
-export default function Providers({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
+export default async function Providers({ children }: { children: ReactNode }) {
+  const session = await auth();
+  
+  return <SessionProvider session={session}>{children}</SessionProvider>;
 }

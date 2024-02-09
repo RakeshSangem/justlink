@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Logo from '../Logo';
 
 interface NavItem {
   label: string;
@@ -45,8 +46,8 @@ export default function Navbar(): JSX.Element {
       );
 
   return (
-    <nav className="flex w-full px-8 justify-between items-center py-8">
-      <span className="text-xl font-semibold">JustLink</span>
+    <nav className="flex w-full px-8 justify-between items-center py-2">
+      <Logo />
       <ul className="flex gap-x-6 items-center">
         {authenticatedNavItems.map((item) => (
           <NavLink key={item.slug} slug={item.slug} text={item.label} />

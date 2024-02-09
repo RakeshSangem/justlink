@@ -1,3 +1,4 @@
+import Logo from '@/components/Logo';
 import NotFound from '../not-found';
 
 interface PageProps {
@@ -57,10 +58,13 @@ export default async function Page({ params }: PageProps) {
         </>
       )}
       <br />
-      <footer className="py-4 w-full flex justify-center">
-        <button className="px-6 py-2 bg-white/80 rounded-md text-black mx-auto">
-          Create your own profile <span>👉</span>
-        </button>
+      <footer className="py-4 w-full flex flex-col justify-center">
+        <a
+          href={`https://justlink.vercel.app`}
+          className="opacity-60 w-min mx-auto hover:opacity-100 duration-200 transition ease-out"
+        >
+          <Logo />
+        </a>
       </footer>
     </div>
   );

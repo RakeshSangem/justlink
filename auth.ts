@@ -13,8 +13,6 @@ export const {
     async signIn({ user, account }: { user: any; account: any }) {
       if (account?.provider === 'google') {
         try {
-          console.log('user from google', user);
-
           const { name, email, image } = await user;
           const userExists = await db.user.findUnique({
             where: { email },
@@ -22,6 +20,7 @@ export const {
               id: true,
             },
           });
+
           if (!userExists) {
             const res = await fetch('http://localhost:3000/api/user', {
               method: 'POST',

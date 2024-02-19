@@ -19,6 +19,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const [showPopOver, setShowPopOver] = useState(false);
   const buttonRef = useRef(null);
 
+  console.log('user image from userInfo', user?.image);
+
   return (
     <div className="relative">
       <button
@@ -36,8 +38,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
       <Popover isOpen={showPopOver} onClose={() => setShowPopOver(false)}>
         <div className="rounded-xl border-[0.5px] border-[#333333] px-4 py-3 text-white">
           <div className="m-2 text-start">
-            <p className="font-normal text-white/80">{user.name}</p>
-            <p className="text-sm font-light text-white/60">{user.email}</p>
+            <p className="font-normal text-white/80">{user?.name}</p>
+            <p className="text-sm font-light text-white/60">{user?.email}</p>
           </div>
           <hr className="border-gray-700/30" />
           <div className="py-2 flex flex-col gap-y-1">

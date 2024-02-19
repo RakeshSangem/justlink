@@ -72,7 +72,7 @@ export default function DesignClient() {
     <div className="bg-zinc-900 rounded-lg px-6 py-4 transition-transform duration-400 ease-in-out">
       <h3 className="text-lg font-normal pb-4">Profile</h3>
       <div className="flex flex-col sm:flex-row sm:px-5 w-4/5 mx-auto py-2 gap-x-12 items-center justify-between">
-        <div className="w-[124px] shrink-0 h-[124px] border-2 border-white rounded-full overflow-hidden">
+        <div className="w-[124px] shrink-0 h-[124px] border-2 border-white mx-auto rounded-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="w-full h-full object-cover"
@@ -80,10 +80,12 @@ export default function DesignClient() {
             alt="user avatar"
           />
         </div>
-        <div className="flex flex-col gap-5  w-full sm:w-2/3 mt-6 sm:m-0">
-          <Button text="Pick an Image" />
-          <Button variant="secondary" text="Remove" />
-        </div>
+        {/* TODO: Implement this feature later      
+          <div className="flex flex-col gap-5  w-full sm:w-2/3 mt-6 sm:m-0">
+            <Button text="Pick an Image" />
+            <Button variant="secondary" text="Remove" />
+          </div>
+        */}
       </div>
       <form className="flex flex-col gap-3 mt-4">
         <input

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { auth } from '@/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/user/[slug] - Get a user by their username
 export async function GET(
   request: Request,
@@ -9,20 +11,14 @@ export async function GET(
 ) {
   const { slug } = params;
 
-  // find all the null username users
+  console.log('slug from api', slug);
+
   const user = await db.user.findUnique({
-    where: {
-      username: slug,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      avatar: true,
-      username: true,
-      links: true,
-    },
+    where: { username: slug },
+    include: { links: true },
   });
+
+  console.log('user from api', user);
 
   if (!user) {
     return NextResponse.json('User not found', { status: 404 });

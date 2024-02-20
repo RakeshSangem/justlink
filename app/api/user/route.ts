@@ -91,7 +91,7 @@ export const PUT = auth(async (req) => {
       const authUser = await req.auth?.user;
       console.log('authUser', authUser);
 
-      const { name, bio } = await req.json();
+      const { name, bio, username } = await req.json();
 
       const user = await db.user.update({
         where: {
@@ -100,6 +100,7 @@ export const PUT = auth(async (req) => {
         data: {
           ...(name && { name }),
           ...(bio && { bio }),
+          ...(username && { username }),
         },
       });
 

@@ -11,23 +11,19 @@ export async function GET(
 ) {
   const { slug } = params;
 
-  console.log('slug from api', slug);
-
   const user = await db.user.findUnique({
     where: { username: slug },
     include: { links: true },
   });
 
-  console.log('user from api', user);
-
   if (!user) {
-    return NextResponse.json('User not found', { status: 404 });
+    return Response.json({ error: 'User not found' }, { status: 404 });
   }
 
   return NextResponse.json({ user });
 }
 
-// PUT /api/user/[slug] -
+// PUT /api/user/[slug] - Update a user by their username
 export const PUT = async (
   req: Request,
   { params }: { params: { slug: string } }

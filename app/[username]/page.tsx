@@ -9,13 +9,15 @@ interface Props {
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }: Props) {
-  const res = await fetch(`http://localhost:3000/api/user/rakeshsangem`, {
+  const res = await fetch(`http://localhost:3000/api/user/rakesh`, {
     cache: 'no-store',
   });
 
   const user = await res.json();
 
-  if (!user) {
+  console.log('user', user);
+
+  if (user.error) {
     return <NotFound />;
   }
 

@@ -1,21 +1,18 @@
 import Logo from '@/components/Logo';
 import NotFound from '../not-found';
-import { title } from 'process';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: { username: string };
 }
 
-export const dynamic = 'force-dynamic';
-
 export default async function Page({ params }: Props) {
-  const res = await fetch(`http://localhost:3000/api/user/rakesh`, {
+  const res = await fetch(`http://localhost:3000/api/user/${params.username}`, {
     cache: 'no-store',
   });
 
   const user = await res.json();
-
-  console.log('user', user);
 
   if (user.error) {
     return <NotFound />;

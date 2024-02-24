@@ -1,12 +1,23 @@
 'use client';
 
-import { useCallback, useState, useEffect, ChangeEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  FormEvent,
+  ChangeEvent,
+} from 'react';
+import { redirect, useSearchParams, useRouter } from 'next/navigation';
+
 import { useDebouncedCallback } from 'use-debounce';
 
-const CheckUsername = () => {
-  const [username, setUsername] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+export default function CheckUsername() {
+  const [username, setUsername] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isUsernameAvailable, setIsUsernameAvailable] =
+    useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const debounce = useDebouncedCallback(
     useCallback((value) => {
@@ -43,22 +54,48 @@ const CheckUsername = () => {
     debounce(value);
   };
 
+  const handleSignUp = (e: FormEvent) => {
+    e.preventDefault();
+
+    let route;
+
+    if (!username) {
+      route = `/register`;
+    } else {
+      route = `/register?username=` + username;
+    }
+
+    router.push(route);
+  };
+
   return (
     <div>
-      <form className="border border-gray-600 p-2 rounded-md flex items-center">
-        <span className="text-xl font-medium text-white/60">justlink.com/</span>
+      <form className="border border-white/60 p-1 rounded-md flex items-center">
+        <span className="sm:text-base text-sm font-medium text-white/60 ml-2">
+          Justlink.io/
+        </span>
         <input
-          className="bg-transparent outline-none border-none px-1 text-xl font-normal"
+          className="peer bg-transparent outline-none text-sm border-none px-1 sm:text-base font-medium"
           type="text"
           defaultValue={username}
           onChange={handleInputChange}
-          placeholder="your-link"
+          placeholder="yourname"
         />
+        {/* TODO: configure the button based on needs */}
+        {/* 
+        <Button
+          disabled={loading || !username || !isUsernameAvailable}
+          onClick={handleSignUp} // Call handleSignUp function when button is clicked
+          variant="primary"
+          text="Claim your link"
+        /> */}
+
         <button
-          className="bg-white text-black rounded-md px-5 py-1.5 font-medium"
-          disabled={loading}
+          type="submit"
+          onClick={handleSignUp}
+          className="bg-white w-max text-sm text-black px-3 py-2 rounded-sm hover:bg-gray-100"
         >
-          Generate
+          Claim your link
         </button>
       </form>
 
@@ -75,6 +112,4 @@ const CheckUsername = () => {
       )}
     </div>
   );
-};
-
-export default CheckUsername;
+}

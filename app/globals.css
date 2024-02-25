@@ -2,13 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-color: #000;
-  --text: #fff;
-  --accent: #f00;
-}
-
 body {
   background-color: var(--bg-color);
   color: var(--text);
+}
+
+@layer components {
+  :root {
+    --bg-color: #000;
+    --text: #fff;
+    --accent: #f00;
+
+    /* Custom page/ user page colors */
+    --page-bg-color: #000;
+    --page-text: #fff;
+    --page-body-text: #fff;
+    --page-avatar-border: #fff;
+    --page-avatar-bg: #000;
+    --page-avatar-border-hover: #fff;
+    --page-btn-bg: #eaeaea;
+    --page-btn-text: #000000;
+    --page-btn-hover: #fff;
+    --page-btn-border: 14px;
+    --page-btn-border-color: #fff;
+    --page-btn-border-hover: #fff;
+  }
+  .urbanchic {
+    --page-bg-color: #1d1d1d;
+    --page-text: #fff;
+    --page-body-text: #494949;
+    --page-avatar-border: #fff;
+    --page-avatar-bg: #000;
+    --page-avatar-border-hover: #fff;
+    --page-btn-bg: #2a2a2a;
+    --page-btn-text: #e1e1e1;
+    --page-btn-hover: rgb(62, 39, 39) 525;
+    --page-btn-border-width: 14px;
+    --page-btn-border-color: #3c3c3c;
+    --page-btn-border-hover: #4a4a4a;
+  }
 }

@@ -13,6 +13,25 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      backgroundColor: {
+        skin: {
+          bg: 'var(--page-bg-color)',
+          'btn-bg': 'var(--page-btn-bg)',
+          'btn-hover': 'var(--page-btn-border-hover)',
+        },
+      },
+      textColor: {
+        skin: {
+          text: 'var(--page-text)',
+          'btn-text': 'var(--page-btn-text)',
+        },
+      },
+      borderColor: {
+        skin: {
+          border: 'var(--border-color)',
+          btn: 'var(--page-btn-border-color)',
+        },
+      },
       animation: {
         spinner: 'spinner 1.2s linear infinite',
         'slide-up-fade': 'slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1)',

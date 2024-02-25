@@ -1,10 +1,12 @@
 'use client';
+
 import React, { useState, useRef } from 'react';
 import type { User } from 'next-auth';
-import LogOutIcon from './icons/LogoutIcon';
-import Gear from './icons/Gear';
 import { logout } from '@/lib/actions/logout';
 import Link from 'next/link';
+
+import LogOutIcon from './icons/LogoutIcon';
+import Gear from './icons/Gear';
 import Popover from './Popover';
 
 interface UserInfoProps {
@@ -15,11 +17,9 @@ interface UserInfoProps {
   };
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+export default function UserInfo({ user }: UserInfoProps) {
   const [showPopOver, setShowPopOver] = useState(false);
   const buttonRef = useRef(null);
-
-  console.log('user image from userInfo', user?.image);
 
   return (
     <div className="relative">
@@ -62,6 +62,4 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
       </Popover>
     </div>
   );
-};
-
-export default UserInfo;
+}

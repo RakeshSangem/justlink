@@ -35,8 +35,6 @@ export default function useLinks() {
     revalidateOnReconnect: false,
   });
 
-  console.log('use links', typeof data);
-
   return {
     links: data || [],
     isValidating,

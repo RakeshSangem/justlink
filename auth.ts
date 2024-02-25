@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Account, User } from 'next-auth';
 import authConfig from './auth.config';
 import { db } from './db';
 
@@ -10,7 +10,7 @@ export const {
 } = NextAuth({
   ...authConfig,
   callbacks: {
-    async signIn({ user, account }: { user: any; account: any }) {
+    async signIn({ user, account }: { user: any; account: Account | null }) {
       if (account?.provider === 'google') {
         try {
           const { name, email, image } = await user;

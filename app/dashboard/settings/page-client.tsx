@@ -4,7 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 import AvailableIcon from '@/components/icons/Available';
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import ErrorIcon from '@/components/icons/Error';
 import { fetcher } from '@/lib/swr/use-links';
 
@@ -86,11 +86,11 @@ export default function PageClient() {
 
   return (
     <div className="space-y-4 mx-auto py-6 max-w-2xl">
-      <div className="flex flex-col space-y-3 bg-[#18181B] border border-[#242426] px-7 py-6 rounded-lg h-auto transition-height duration-1000 ease-in-out">
-        <div className="mb-3">
+      <div className="flex flex-col space-y-1 bg-[#18181B] border border-[#242426] px-7 py-6 rounded-lg h-auto transition-height duration-1000 ease-in-out">
+        <div className="mb-1">
           <h4 className="text-lg font-normal text-white">Username</h4>
           <p className="text-white/60 text-sm font-light">
-            username will be your unique name that will be used for the page
+            The username will serve as your distinctive identifier for the page.
           </p>
           {!isLoading ? (
             <input
@@ -100,46 +100,51 @@ export default function PageClient() {
                 user?.user && user?.user?.username ? user.user.username : ''
               }
               onChange={(e) => debounce(e.target.value)}
-              placeholder={'Enter your username'}
-              className="w-full max-w-96 text-sm sm:text-base rounded-md mt-5 text-white/70 focus:text-white rounded-l bg-transparent py-2 px-3 border border-zinc-800 focus:outline-none focus:ring-1 focus:ring-white/50"
+              placeholder={'ex: rakeshdev'}
+              spellCheck={false}
+              className="w-full max-w-96 text-sm sm:text-base rounded-md mt-5 text-white/70 focus:text-white rounded-l bg-transparent py-2 px-3 border border-zinc-800 focus:outline-none focus:ring-1 focus:ring-white/50 placeholder-white/30"
             />
           ) : (
             <div className="w-full h-10 mt-5 bg-zinc-900 rounded-md animate-pulse" />
           )}
-          {uName.trim() !== '' && loading && uName !== user?.user?.username && (
-            <p className="text-white/40 mt-2">Checking availability...</p>
-          )}
-          {uName.trim() !== '' &&
-            !loading &&
-            uName !== user?.user?.username && (
-              <span
-                className="mt-2 flex items-center text-sm font-light gap-x-1"
-                style={{ color: isUsernameAvailable ? 'green' : 'red' }}
-              >
-                {isUsernameAvailable ? (
-                  <>
-                    <AvailableIcon />
-                    Username is available.
-                  </>
-                ) : (
-                  <>
-                    <ErrorIcon />
-                    Username already exists!
-                  </>
-                )}
-              </span>
-            )}
-        </div>
-        {isUsernameAvailable && (
-          <div className="mt-2">
-            <Button
-              text="Save changes"
-              loading={buttonLoading}
-              onClick={handleSaveClick}
-              variant="primary"
-            />
+          <div className="h-5 mt-1">
+            {uName.trim() !== '' &&
+              loading &&
+              uName !== user?.user?.username && (
+                <p className="text-white/60 text-sm">
+                  Checking availability...
+                </p>
+              )}
+            {uName.trim() !== '' &&
+              !loading &&
+              uName !== user?.user?.username && (
+                <span
+                  className="flex items-center text-sm font-light gap-x-1"
+                  style={{ color: isUsernameAvailable ? 'lightgreen' : 'red' }}
+                >
+                  {isUsernameAvailable ? (
+                    <>
+                      <AvailableIcon />
+                      Username is available.
+                    </>
+                  ) : (
+                    <>
+                      <ErrorIcon />
+                      Username already exists!
+                    </>
+                  )}
+                </span>
+              )}
           </div>
-        )}
+        </div>
+
+        <Button
+          disabled={!isUsernameChanged || !isUsernameAvailable || !uName}
+          text="Save changes"
+          loading={buttonLoading}
+          onClick={handleSaveClick}
+          variant="secondary"
+        />
       </div>
     </div>
   );

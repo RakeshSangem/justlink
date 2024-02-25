@@ -1,13 +1,20 @@
 'use client';
 
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RegisterClient() {
   const [loadingGitHub, setLoadingGitHub] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const router = useRouter();
+  const params = useSearchParams();
+
+  console.log('params', params.get('username'));
+
+  console.log('router', router);
 
   const handleLogin = async (
     provider: string,
@@ -15,6 +22,7 @@ export default function RegisterClient() {
   ) => {
     setLoading(true);
     await signIn(provider, {
+      username: 'username',
       callbackUrl: `${window.location.origin}/dashboard`,
     });
     setLoading(false);

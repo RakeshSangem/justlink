@@ -13,7 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabledTooltip?: string | ReactNode;
 }
 
-export function Button({
+export default function Button({
   text,
   variant = 'primary',
   loading,
@@ -41,7 +41,7 @@ export function Button({
           : {
               'bg-white text-black hover:bg-white/90 hover:text-black/90':
                 variant === 'primary',
-              'border-[#646363] text-white/80 hover:border-white hover:bg-black hover:text-white':
+              'border-[#646363] text-white/80 hover:border-white/70 hover:bg-black hover:text-white':
                 variant === 'secondary',
               'border-blue-500 bg-blue-500 text-white hover:bg-white hover:text-blue-500':
                 variant === 'success',

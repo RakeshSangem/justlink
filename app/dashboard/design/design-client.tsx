@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import { fetcher } from '@/lib/swr/use-links';
 import useSWR from 'swr';
 import { toast } from 'sonner';

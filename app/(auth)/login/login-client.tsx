@@ -1,24 +1,26 @@
 'use client';
 
-import { Button } from '@/components/button/Button';
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
+
+import Button from '@/components/button/Button';
+import { signIn } from 'next-auth/react';
 
 export default function LoginClient() {
-  const [loadingGitHub, setLoadingGitHub] = useState(false);
-  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [loadingGitHub, setLoadingGitHub] = useState<boolean>(false);
+  const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
 
-  const handleLogin = async (
+  async function handleLogin(
     provider: string,
     setLoading: (loading: boolean) => void
-  ) => {
+  ) {
     setLoading(true);
+
     await signIn(provider, {
       callbackUrl: `${window.location.origin}/dashboard`,
     });
     setLoading(false);
-  };
+  }
 
   return (
     <div className="mt-4 flex flex-col gap-5 py-4 w-80">

@@ -1,7 +1,7 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '../button/Button';
+import Button from '../button/Button';
 
 export const Social = () => {
   const searchParams = useSearchParams();

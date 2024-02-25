@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import { fetcher } from '@/lib/swr/use-links';
 import { redirect } from 'next/navigation';
 import useSWR from 'swr';

@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/button/Button';
+import Button from '@/components/button/Button';
 import AddLinkModal from '@/components/modals/AddLinkModal';
 // ParentComponent.tsx
 import React, { useState } from 'react';

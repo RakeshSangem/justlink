@@ -22,18 +22,21 @@ export const {
           });
 
           if (!userExists) {
-            const res = await fetch('http://localhost:3000/api/user', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                name,
-                email,
-                image,
-                username: name.split(' ').join('').toLowerCase(),
-              }),
-            });
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_APP_DOMAIN}/api/user`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  name,
+                  email,
+                  image,
+                  username: name.split(' ').join('').toLowerCase(),
+                }),
+              }
+            );
             if (!res.ok) {
               throw new Error('Failed to create user');
             }
@@ -53,17 +56,20 @@ export const {
             where: { email },
           });
           if (!userExists) {
-            const res = await fetch('http://localhost:3000/api/user', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                name,
-                email,
-                image,
-              }),
-            });
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_APP_DOMAIN}/api/user`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  name,
+                  email,
+                  image,
+                }),
+              }
+            );
             if (!res.ok) {
               throw new Error('Failed to create user');
             }

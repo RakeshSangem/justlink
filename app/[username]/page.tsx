@@ -8,9 +8,12 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const res = await fetch(`http://localhost:3000/api/user/${params.username}`, {
-    cache: 'no-store',
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_DOMAIN}/api/user/${params.username}`,
+    {
+      cache: 'no-store',
+    }
+  );
 
   const user = await res.json();
 

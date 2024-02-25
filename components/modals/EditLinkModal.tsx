@@ -1,9 +1,12 @@
-import useLinks from '@/lib/swr/use-links';
-import { Button } from '../button/Button';
+'use client';
+
 import { useState } from 'react';
+
+import useLinks from '@/lib/swr/use-links';
 import Modal from './Modal';
 import { toast } from 'sonner';
 import { isUrlValid } from '@/lib/utils';
+import Button from '../button/Button';
 
 export default function EditLinkModal({
   isOpen,

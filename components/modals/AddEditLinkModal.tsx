@@ -1,4 +1,4 @@
-import { Button } from '../button/Button';
+import Button from '../button/Button';
 import Modal from './Modal';
 import { useModal } from './ModalProvider';
 

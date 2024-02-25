@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Modal from './Modal';
+import React, { useState } from 'react';
+
 import useLinks from '@/lib/swr/use-links';
-import { Button } from '../button/Button';
 import { toast } from 'sonner';
 import { isUrlValid } from '@/lib/utils';
+
+import Modal from './Modal';
+import Button from '../button/Button';
 
 interface AddLinkModalProps {
   isOpen: boolean;

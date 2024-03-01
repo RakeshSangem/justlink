@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 import Button from '@/components/button/Button';
 import { signIn } from 'next-auth/react';
+import { GitHubIcon } from '@/components/icons/GitHub';
+import { GoogleIcon } from '@/components/icons/GoogleIcon';
 
 export default function LoginClient() {
   const [loadingGitHub, setLoadingGitHub] = useState<boolean>(false);
@@ -25,16 +27,18 @@ export default function LoginClient() {
   return (
     <div className="mt-4 flex flex-col gap-5 py-4 w-80">
       <Button
-        loading={loadingGitHub}
-        text="Continue with GitHub"
-        onClick={() => handleLogin('github', setLoadingGitHub)}
+        loading={loadingGoogle}
+        icon={<GoogleIcon />}
+        text="Continue with Google"
         variant="primary"
+        onClick={() => handleLogin('google', setLoadingGoogle)}
       />
       <Button
-        loading={loadingGoogle}
-        text="Continue with Google"
+        loading={loadingGitHub}
+        icon={<GitHubIcon />}
+        text="Continue with GitHub"
+        onClick={() => handleLogin('github', setLoadingGitHub)}
         variant="secondary"
-        onClick={() => handleLogin('google', setLoadingGoogle)}
       />
       <div>
         <p className="text-sm text-gray-500">

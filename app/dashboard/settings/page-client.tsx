@@ -143,7 +143,7 @@ export default function PageClient() {
           text="Save changes"
           loading={buttonLoading}
           onClick={handleSaveClick}
-          variant="secondary"
+          variant="primary"
         />
       </div>
     </div>

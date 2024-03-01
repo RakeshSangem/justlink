@@ -1,6 +1,8 @@
 'use client';
 
 import Button from '@/components/button/Button';
+import { GitHubIcon } from '@/components/icons/GitHub';
+import { GoogleIcon } from '@/components/icons/GoogleIcon';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -31,22 +33,27 @@ export default function RegisterClient() {
   return (
     <div className="mt-4 flex flex-col gap-5 py-4 w-80">
       <Button
-        loading={loadingGitHub}
-        text="Continue with GitHub"
-        onClick={() => handleLogin('github', setLoadingGitHub)}
+        loading={loadingGoogle}
+        icon={<GoogleIcon />}
+        text="Continue with Google"
         variant="primary"
+        onClick={() => handleLogin('google', setLoadingGoogle)}
       />
       <Button
-        loading={loadingGoogle}
-        text="Continue with Google"
+        loading={loadingGitHub}
+        icon={<GitHubIcon />}
+        text="Continue with GitHub"
+        onClick={() => handleLogin('github', setLoadingGitHub)}
         variant="secondary"
-        onClick={() => handleLogin('google', setLoadingGoogle)}
       />
       <div>
         <p className="text-sm text-gray-500">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Don't have an account?{' '}
-          <Link href="/login" className="font-medium">
+          <Link
+            href="/login"
+            className="font-medium text-white/70 hover:text-white"
+          >
             Sign In
           </Link>
         </p>

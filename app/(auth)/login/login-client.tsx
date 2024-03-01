@@ -44,7 +44,10 @@ export default function LoginClient() {
         <p className="text-sm text-gray-500">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Don't have an account?{' '}
-          <Link href="/register" className="font-medium">
+          <Link
+            href="/register"
+            className="font-medium text-white/70 hover:text-white"
+          >
             Register
           </Link>
         </p>

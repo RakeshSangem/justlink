@@ -1,5 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import Close from '../icons/Close';
+import React, { useEffect } from "react";
+import { Drawer } from "vaul";
+import * as Dialog from "@radix-ui/react-dialog";
+
+import Close from "../icons/Close";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,83 +19,70 @@ export default function Modal({
   children,
   title,
 }: ModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const { isMobile } = useMediaQuery();
 
   const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && isOpen) {
+    if (e.key === "Escape" && isOpen) {
       onClose();
     }
   };
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
 
       return () => {
-        document.removeEventListener('keydown', handleEscape);
+        document.removeEventListener("keydown", handleEscape);
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  // Handle click on the modal backdrop
-  const handleClickBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
-    // if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-    //   onClose(); // Close the modal
-    // }
-
-    if (modalRef.current && modalRef.current === e.target) {
-      onClose();
-    }
-  };
-
-  return isOpen ? (
-    <>
-      <div className="fixed inset-0 flex items-center justify-center z-[999]">
-        {/* Background Overlay */}
-        <div
-          className="fixed inset-0 bg-black/10 transition-opacity duration-300"
+  if (isMobile) {
+    return (
+      <Drawer.Root open={isOpen} onClose={onClose} shouldScaleBackground>
+        <Drawer.Overlay
           onClick={onClose}
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
         />
-
-        {/* Modal Container */}
-        <div
-          ref={modalRef}
-          className="fixed duration-700 h-screen w-screen backdrop-blur-sm"
-          onClick={handleClickBackdrop}
-        >
-          {/* Modal Content */}
-          <div
-            className={`flex items-center justify-center h-full w-full ${
-              isOpen ? 'scale-100' : 'scale-0'
-            } transition-transform duration-700`}
-          >
-            <div className="bg-black relative rounded-md shadow-md text-white border border-zinc-800">
-              <div className="flex relative items-center justify-between gap-8 border-b border-white/20 p-4">
-                {title && (
-                  <h2 className="text-xl font-normal tracking-wide">{title}</h2>
-                )}{' '}
-                <button
-                  onClick={onClose}
-                  type="button"
-                  className="flex absolute top-3 right-3 h-7 w-7 p-1 items-center justify-center rounded-full hover:bg-[#222222]"
-                >
-                  <Close />
-                </button>
-              </div>
-              <div
-                className="rounded-b-md min-h-28 bg-[#111111] p-4"
-                style={{
-                  maxHeight: '70vh',
-                  overflowY: 'auto',
-                }}
-              >
-                {children}
-              </div>
+        <Drawer.Portal>
+          <Drawer.Content className="fixed left-0 z-50 right-0 bottom-0 rounded-t-[10px] bg-black border-t border-zinc-700">
+            <div className="bg-black relative rounded-md shadow-md pb-10">
+              <div className="mx-auto my-4 w-12 h-1.5 flex-shrink-0 bg-zinc-900 rounded-full" />
+              {title && (
+                <h2 className="text-xl px-3 font-normal tracking-wide">
+                  {title}
+                </h2>
+              )}{" "}
+              {children}
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  ) : null;
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+    );
+  }
+
+  return (
+    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/20 z-40 backdrop-blur-sm" />
+        <Dialog.Content className="animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-zinc-800 bg-[#111111] rounded-md shadow-xl">
+          {title && (
+            <Dialog.Title className=" text-white font-semibold bg-black border-b border-white/20 w-full p-5">
+              {title}
+              <button
+                onClick={onClose}
+                type="button"
+                className="flex absolute top-3 right-3 h-7 w-7 p-1 items-center justify-center rounded-full hover:bg-[#222222]"
+              >
+                <Close />
+              </button>
+            </Dialog.Title>
+          )}
+          {children}
+          <Dialog.Close />
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
 }

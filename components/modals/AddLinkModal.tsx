@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import useLinks from '@/lib/swr/use-links';
-import { toast } from 'sonner';
-import { isUrlValid } from '@/lib/utils';
+import useLinks from "@/lib/swr/use-links";
+import { toast } from "sonner";
+import { isUrlValid } from "@/lib/utils";
 
-import Modal from './Modal';
-import Button from '../button/Button';
+import Modal from "./Modal";
+import Button from "../button/Button";
 
 interface AddLinkModalProps {
   isOpen: boolean;
@@ -16,29 +16,29 @@ interface AddLinkModalProps {
 export default function AddLinkModal({
   isOpen,
   onClose,
-  title = 'Add link', // Default title if not provided
+  title = "Add link", // Default title if not provided
 }: AddLinkModalProps) {
   const [loading, setLoading] = useState(false);
   const { mutate } = useLinks();
   const [link, setLink] = useState({
-    title: '',
-    url: '',
+    title: "",
+    url: "",
   });
 
   const handleFormSubmission = async () => {
     setLoading(true);
 
     if (!isUrlValid(link.url)) {
-      toast.error('Please enter a valid URL');
+      toast.error("Please enter a valid URL");
       setLoading(false);
       return;
     }
 
     try {
-      const res = await fetch('/api/links', {
-        method: 'POST',
+      const res = await fetch("/api/links", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(link),
       });
@@ -47,13 +47,13 @@ export default function AddLinkModal({
       if (res.ok) {
         setLoading(false);
         setLink({
-          title: '',
-          url: '',
+          title: "",
+          url: "",
         });
         onClose();
-        toast.success('Link added successfully');
+        toast.success("Link added successfully");
       } else {
-        throw new Error('Failed to save link');
+        throw new Error("Failed to save link");
       }
     } catch (error) {
       console.error(error);
@@ -67,7 +67,7 @@ export default function AddLinkModal({
           e.preventDefault();
           handleFormSubmission();
         }}
-        className="p-3 flex flex-col gap-y-5"
+        className="p-5 flex flex-col gap-y-5"
       >
         <div className="flex flex-col space-y-2 min-w-96">
           <label

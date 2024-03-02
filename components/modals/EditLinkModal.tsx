@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import useLinks from '@/lib/swr/use-links';
-import { isUrlValid } from '@/lib/utils';
-import { toast } from 'sonner';
+import useLinks from "@/lib/swr/use-links";
+import { isUrlValid } from "@/lib/utils";
+import { toast } from "sonner";
 
-import Button from '../button/Button';
-import Modal from './Modal';
+import Button from "../button/Button";
+import Modal from "./Modal";
 
 export default function EditLinkModal({
   isOpen,
@@ -39,7 +39,7 @@ export default function EditLinkModal({
     setLoading(true);
 
     if (!isUrlValid(link.url)) {
-      toast.error('Please enter a valid URL');
+      toast.error("Please enter a valid URL");
       setLoading(false);
       return;
     }
@@ -53,9 +53,9 @@ export default function EditLinkModal({
       }
 
       const res = await fetch(`/api/links/${linkData.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(link),
       });
@@ -69,9 +69,9 @@ export default function EditLinkModal({
       if (res.ok) {
         setLoading(false);
         onClose();
-        toast.success('Link updated successfully');
+        toast.success("Link updated successfully");
       } else {
-        throw new Error('Failed to save link');
+        throw new Error("Failed to save link");
       }
     } catch (error) {
       console.error(error);
@@ -80,7 +80,7 @@ export default function EditLinkModal({
 
   return (
     <Modal
-      title={`${linkData ? 'Edit link' : 'Add new link '}`}
+      title={`${linkData ? "Edit link" : "Add new link "}`}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -91,7 +91,7 @@ export default function EditLinkModal({
           e.preventDefault();
           handleSave();
         }}
-        className="p-3 flex flex-col gap-y-5"
+        className="p-5 flex flex-col gap-y-5"
       >
         <div className="flex flex-col space-y-2 min-w-96">
           <label

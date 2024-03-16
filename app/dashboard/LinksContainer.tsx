@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import LinkCard from '@/components/links/LinkCard';
-import useLinks from '@/lib/swr/use-links';
+import LinkCard from "@/components/links/LinkCard";
+import useLinks from "@/lib/swr/use-links";
 
 export default function LinksContainer() {
-  const { links, isValidating } = useLinks();
+  const { links, isLoading } = useLinks();
 
   return (
     <div className="flex flex-col gap-y-3">
-      {isValidating || !links
+      {isLoading
         ? [...Array(3)].map((_, idx) => <LinkCardSkeleton key={idx} />)
         : links?.map((link: any) => <LinkCard key={link.id} link={link} />)}
     </div>

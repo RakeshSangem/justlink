@@ -1,5 +1,5 @@
-import { link } from 'fs';
-import useSWR from 'swr';
+import { link } from "fs";
+import useSWR from "swr";
 
 // import { useParams } from 'next/navigation';
 
@@ -27,17 +27,22 @@ interface SWRError extends Error {
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function useLinks() {
-  const { data, isValidating, mutate } = useSWR(`/api/links`, fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 20000,
-    keepPreviousData: true,
-    revalidateIfStale: false,
-    revalidateOnReconnect: false,
-  });
+  const { data, isValidating, mutate, isLoading } = useSWR(
+    `/api/links`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 20000,
+      keepPreviousData: true,
+      revalidateIfStale: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   return {
     links: data || [],
     isValidating,
+    isLoading,
     mutate,
   };
 }

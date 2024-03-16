@@ -1,11 +1,12 @@
-import { ReactNode, useEffect } from 'react';
-import { currentUser } from '@/lib/auth/auth';
+import { ReactNode, use, useEffect } from "react";
+import { currentUser } from "@/lib/auth/auth";
 
-import Providers from './providers';
-import NavTabs from '@/components/nav-tabs';
-import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
-import UserInfo from '@/components/UserInfo';
-import Logo from '@/components/Logo';
+import Providers from "./providers";
+import NavTabs from "@/components/nav-tabs";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import UserInfo from "@/components/UserInfo";
+import Logo from "@/components/Logo";
+import MobileDeviceMockup from "@/components/DeviceMockup";
 
 export default async function DashboardLayout({
   children,
@@ -30,7 +31,14 @@ export default async function DashboardLayout({
             </div>
           </MaxWidthWrapper>
         </div>
-        {children}
+        <MaxWidthWrapper>
+          <div className="grid grid-flow-col grid-cols-5 relative">
+            {children}
+            <div className="col-span-2 mx-auto">
+              <MobileDeviceMockup />
+            </div>
+          </div>
+        </MaxWidthWrapper>
       </section>
     </Providers>
   );

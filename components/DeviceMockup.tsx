@@ -1,32 +1,35 @@
-'use client';
+"use client";
 
-import useLinks from '@/lib/swr/use-links';
-import React from 'react';
+import useLinks from "@/lib/swr/use-links";
+import React, { memo } from "react";
+import { usePathname } from "next/navigation";
+import useUser from "@/lib/swr/useUser";
 
-const MobileDeviceMockup = () => {
-  const { links, isValidating } = useLinks();
+export default memo(function MobileDeviceMockup() {
+  const { links } = useLinks();
+  const { user } = useUser();
+  const pathname = usePathname();
 
-  return (
-    <div className="relative mx-auto border-black outline-[0.5px] outline outline-white/50 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
-      <div className="w-[148px] h-[18px] bg-gray-900 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
-      <div className="h-[46px] w-[3px] bg-black absolute outline-[0.5px] outline outline-white/50 -start-[17px] top-[124px] rounded-s-lg"></div>
-      <div className="h-[46px] w-[3px] bg-black absolute outline-[0.5px] outline outline-white/50 -start-[17px] top-[178px] rounded-s-lg"></div>
-      <div className="h-[64px] w-[3px] bg-black absolute outline-[0.5px] outline outline-white/50 -end-[17px] top-[142px] rounded-e-lg"></div>
-      <div className="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white">
-        <div className="pt-8 bg-black h-full overflow-y-auto">
-          <div className="w-24 h-24 mx-auto rounded-full bg-gray-200"></div>
-
-          <div className="text-center">
-            <h1 className="text-white font-semibold text-xl">Rakesh Sangem</h1>
-            <p className="text-white/50 font-light py-1 text-sm">
-              Frontend developer from INDIA
-            </p>
+  if (pathname === "/dashboard/design" || pathname === "/dashboard") {
+    return (
+      <div className="h-[470px] w-[240px] shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm">
+        <div className="relative flex h-full w-full flex-col gap-y-2 rounded-[24px] border-[0.2px] border-white/40 bg-white">
+          {/* <div className="absolute left-1/2 right-1/2 top-1 h-4 w-16 -translate-x-1/2 transform rounded-full border-[0.5px] border-white/10 bg-black/95" /> */}
+          <div className="text-center mt-10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="w-10 h-w-10 rounded-full mx-auto border-2 border-black/10"
+              src={user?.avatar || "/images/avatar.png"}
+              alt="user avatar"
+            />
+            <h1 className="text-black font-semibold text-base">{user?.name}</h1>
+            <p className="text-black/50 font-light py-1 text-xs">{user?.bio}</p>
           </div>
-          <div className="flex flex-col mt-5 gap-y-5">
+          <div className="flex flex-col mt-3 gap-y-2">
             {links?.map((link: any) => (
               <a
-                className="text-center font-medium w-5/6 mx-auto py-2 bg-white text-black rounded-full"
-                key={link._id}
+                className="text-center text-xs font-normal w-5/6 mx-auto px-3  p-2 bg-black text-white rounded-full"
+                key={link.id}
                 target="_blank"
                 href={link.url}
               >
@@ -36,8 +39,6 @@ const MobileDeviceMockup = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default MobileDeviceMockup;
+    );
+  }
+});

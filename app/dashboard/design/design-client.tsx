@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Button from '@/components/button/Button';
-import { fetcher } from '@/lib/swr/use-links';
-import useSWR from 'swr';
-import { toast } from 'sonner';
+import React, { useEffect, useState } from "react";
+import Button from "@/components/button/Button";
+import { fetcher } from "@/lib/swr/use-links";
+import useSWR from "swr";
+import { toast } from "sonner";
 
 export default function DesignClient() {
-  const { data, mutate, isLoading } = useSWR('/api/user', fetcher);
+  const { data, mutate, isLoading } = useSWR("/api/user", fetcher);
   const [formData, setFormData] = useState({
-    name: '',
-    bio: '',
+    name: "",
+    bio: "",
   });
   const [isDataModified, setIsDataModified] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -36,31 +36,30 @@ export default function DesignClient() {
   };
 
   const handleSaveClick = async () => {
-    // Perform the logic to update the data on the server
     try {
       setButtonLoading(true);
-      const res = await fetch('/api/user', {
-        method: 'PUT',
+      const res = await fetch("/api/user", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (!res.ok) {
-        throw new Error('Error updating data');
+        throw new Error("Error updating data");
       }
 
       if (res.ok) {
         setButtonLoading(false);
-        toast.success('Updated successfully');
+        toast.success("Updated successfully");
       }
 
       setIsDataModified(false);
 
-      mutate('/api/user');
+      mutate("/api/user");
     } catch (error) {
-      console.error('Error updating data:', error);
+      console.error("Error updating data:", error);
     }
   };
 
@@ -76,7 +75,7 @@ export default function DesignClient() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="w-full h-full object-cover"
-            src={data?.user?.avatar || '/images/avatar.png'}
+            src={data?.user?.avatar || "/images/avatar.png"}
             alt="user avatar"
           />
         </div>

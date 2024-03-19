@@ -1,12 +1,12 @@
-'use client';
-import DeleteIcon from '../icons/Delete';
-import EditIcon from '../icons/Edit';
-import useSWR from 'swr';
-import { fetcher } from '@/lib/swr/use-links';
-import External from '../icons/External';
-import { useState } from 'react';
-import EditLinkModal from '../modals/EditLinkModal';
-import { toast } from 'sonner';
+"use client";
+import DeleteIcon from "../icons/Delete";
+import EditIcon from "../icons/Edit";
+import useSWR from "swr";
+import { fetcher } from "@/lib/swr/use-links";
+import External from "../icons/External";
+import { useState } from "react";
+import EditLinkModal from "../modals/EditLinkModal";
+import { toast } from "sonner";
 
 export interface LinkCardProps {
   id: string;
@@ -17,28 +17,33 @@ export interface LinkCardProps {
 export default function LinkCard({ link }: { link: LinkCardProps }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const { data, mutate } = useSWR('/api/links', fetcher);
+  const { data, mutate } = useSWR("/api/links", fetcher);
 
   const handleOpenEditModal = () => setIsEditModalOpen(true);
   const handleCloseEditModal = () => setIsEditModalOpen(false);
 
   const deleleLink = async () => {
-    const updatedData = data.filter(
-      (item: { _id: string }) => item._id !== link.id
+    const remainingLinks = data.filter(
+      (item: { id: string }) => item.id !== link.id
     );
-    await mutate(updatedData, false);
+
+    await mutate(remainingLinks, false);
 
     try {
-      await fetch(`/api/links/${link.id}`, {
-        method: 'DELETE',
+      const res = await fetch(`/api/links/${link.id}`, {
+        method: "DELETE",
       });
 
-      mutate();
+      if (!res.ok) {
+        throw new Error(
+          "Oops! Failed to delete the link. Please try again later."
+        );
+      }
 
-      toast.success('Link deleted successfully');
-    } catch (e) {
+      toast.success("Link deleted successfully");
+    } catch (error: any) {
       mutate(data, false);
-      alert((e as Error).message);
+      toast.error(error.message);
     }
   };
 

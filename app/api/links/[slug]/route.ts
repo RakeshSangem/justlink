@@ -1,6 +1,5 @@
-import { db } from '@/db';
-
-import { NextResponse } from 'next/server';
+import { db } from "@/db";
+import { NextResponse } from "next/server";
 
 // GET /api/links/[slug] - Get a single link
 export async function GET({ linkId }: any) {
@@ -12,12 +11,12 @@ export async function GET({ linkId }: any) {
     });
 
     if (!link) {
-      return NextResponse.json('Link not found', { status: 404 });
+      return NextResponse.json("Link not found", { status: 404 });
     }
 
     return NextResponse.json(link);
   } catch (error) {
-    NextResponse.json('Internal Server Error', { status: 500 });
+    NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
 
@@ -36,7 +35,7 @@ export async function DELETE(
 
   if (!deletedLink) {
     return NextResponse.json(
-      { success: false, message: 'Link not found' },
+      { success: false, message: "Link not found" },
       { status: 404 }
     );
   }
@@ -58,9 +57,6 @@ export async function PUT(
     const slug = params.slug;
     const body = await request.json();
 
-    console.log('slug', slug);
-    console.log('body', body);
-
     const updatedLink = await db.link.update({
       where: {
         id: slug,
@@ -70,11 +66,9 @@ export async function PUT(
       },
     });
 
-    console.log('updatedLink', updatedLink);
-
     if (!updatedLink) {
       return NextResponse.json(
-        { success: false, message: 'Link not found' },
+        { success: false, message: "Link not found" },
         { status: 404 }
       );
     }

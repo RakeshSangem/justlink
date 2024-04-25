@@ -8,8 +8,8 @@ export default async function Page() {
 
   if (!session) {
     redirect("/login");
-    return;
   }
+
   return (
     <section className="relative w-full col-span-full mx-auto sm:px-8 flex">
       <MaxWidthWrapper>

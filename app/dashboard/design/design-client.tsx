@@ -63,12 +63,12 @@ export default function DesignClient() {
     }
   };
 
-  if (isLoading) {
-    return <ProfileSkeleton />;
-  }
+  // if (isLoading) {
+  //   return <ProfileSkeleton />;
+  // }
 
   return (
-    <div className="bg-zinc-900 rounded-lg px-6 py-4 transition-transform duration-400 ease-in-out">
+    <div className="bg-zinc-900 rounded-lg px-6 py-4 transition-opacity duration-400 ease-in-out">
       <h3 className="text-lg font-normal pb-4">Profile</h3>
       <div className="flex flex-col sm:flex-row sm:px-5 w-4/5 mx-auto py-2 gap-x-12 items-center justify-between">
         <div className="w-[124px] shrink-0 h-[124px] border-2 border-white mx-auto rounded-full overflow-hidden">

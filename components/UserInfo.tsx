@@ -8,6 +8,7 @@ import Link from "next/link";
 import LogOutIcon from "./icons/LogoutIcon";
 import Gear from "./icons/Gear";
 import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
+import { signOut } from "next-auth/react";
 
 interface UserInfoProps {
   user: User & {
@@ -48,7 +49,11 @@ export default function UserInfo({ user }: UserInfoProps) {
               Settings
             </Link>
             <button
-              onClick={() => logout()}
+              onClick={() =>
+                signOut({
+                  callbackUrl: "/login",
+                })
+              }
               className="group flex text-sm w-full items-center gap-x-3 rounded-md px-2 py-1 font-light text-white/70 hover:bg-[#1F1F23] hover:text-white"
             >
               <LogOutIcon className="group-hover:opacity-100 opacity-80 w-5 h-6" />{" "}

@@ -6,12 +6,6 @@ import { redirect } from "next/navigation";
 import MobileDeviceMockup from "@/components/DeviceMockup";
 
 export default async function Page() {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/login");
-  }
-
   return (
     <section className="relative col-span-3 w-full mx-auto px-2 sm:px-8 flex">
       <div className="py-10 flex flex-col gap-y-4 w-full">

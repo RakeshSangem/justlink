@@ -1,4 +1,4 @@
-import { ReactNode, use, useEffect } from "react";
+import { type ReactNode } from "react";
 import { currentUser } from "@/lib/auth/auth";
 
 import Providers from "./providers";
@@ -7,12 +7,20 @@ import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import UserInfo from "@/components/UserInfo";
 import Logo from "@/components/Logo";
 import MobileDeviceMockup from "@/components/DeviceMockup";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    redirect("/login");
+  }
+
   const userInfo = await currentUser();
 
   return (

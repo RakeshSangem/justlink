@@ -6,8 +6,6 @@ import DesignClient from "./design-client";
 export default async function Page() {
   const session = await auth();
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   if (!session) {
     redirect("/login");
   }

@@ -1,6 +1,6 @@
-import { db } from '@/db';
-import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { db } from "@/db";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
 // GET /api/user - Get the current user
 export const GET = auth(async (req) => {
@@ -17,7 +17,7 @@ export const GET = auth(async (req) => {
       return NextResponse.json(
         {
           error,
-          message: 'Internal Server Error',
+          message: "Internal Server Error",
         },
         {
           status: 500,
@@ -29,11 +29,9 @@ export const GET = auth(async (req) => {
 
 // POST /api/user - Create a new user
 export const POST = auth(async (req) => {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     try {
       const body = await req.json();
-
-      console.log('body from route', body);
 
       const existingUser = await db.user.findUnique({
         where: {
@@ -44,7 +42,7 @@ export const POST = auth(async (req) => {
       if (existingUser) {
         return NextResponse.json(
           {
-            message: 'User already exists!',
+            message: "User already exists!",
           },
           { status: 400 }
         );
@@ -62,7 +60,7 @@ export const POST = auth(async (req) => {
       return NextResponse.json(
         {
           user,
-          message: 'User created successfully!',
+          message: "User created successfully!",
         },
         {
           status: 201,
@@ -71,7 +69,7 @@ export const POST = auth(async (req) => {
     } catch (error) {
       return NextResponse.json(
         {
-          message: 'Internal Server Error' + error,
+          message: "Internal Server Error" + error,
         },
         {
           status: 500,
@@ -81,15 +79,14 @@ export const POST = auth(async (req) => {
   }
 
   // Return a 405 Method Not Allowed response if the request method is not POST
-  return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
+  return NextResponse.json(new Error("Method Not Allowed"), { status: 405 });
 }) as any;
 
 // PUT /api/user - Edit the current user
 export const PUT = auth(async (req) => {
-  if (req.method === 'PUT') {
+  if (req.method === "PUT") {
     try {
-      const authUser = await req.auth?.user;
-      console.log('authUser', authUser);
+      const authUser = req.auth?.user;
 
       const { name, bio, username } = await req.json();
 
@@ -107,7 +104,7 @@ export const PUT = auth(async (req) => {
       return NextResponse.json(
         {
           user,
-          message: 'User updated successfully!',
+          message: "User updated successfully!",
         },
         {
           status: 200,
@@ -116,7 +113,7 @@ export const PUT = auth(async (req) => {
     } catch (error) {
       return NextResponse.json(
         {
-          message: 'Internal Server Error',
+          message: "Internal Server Error",
         },
         {
           status: 500,
@@ -126,5 +123,5 @@ export const PUT = auth(async (req) => {
   }
 
   // Return a 405 Method Not Allowed response if the request method is not PUT
-  return NextResponse.json(new Error('Method Not Allowed'), { status: 405 });
+  return NextResponse.json(new Error("Method Not Allowed"), { status: 405 });
 }) as any;

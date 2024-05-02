@@ -1,22 +1,15 @@
-'use client';
+"use client";
 
-import Button from '@/components/button/Button';
-import { GitHubIcon } from '@/components/icons/GitHub';
-import { GoogleIcon } from '@/components/icons/GoogleIcon';
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import Button from "@/components/button/Button";
+import { GitHubIcon } from "@/components/icons/GitHub";
+import { GoogleIcon } from "@/components/icons/GoogleIcon";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function RegisterClient() {
   const [loadingGitHub, setLoadingGitHub] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
-  const router = useRouter();
-  const params = useSearchParams();
-
-  console.log('params', params.get('username'));
-
-  console.log('router', router);
 
   const handleLogin = async (
     provider: string,
@@ -24,7 +17,7 @@ export default function RegisterClient() {
   ) => {
     setLoading(true);
     await signIn(provider, {
-      username: 'username',
+      username: "username",
       callbackUrl: `${window.location.origin}/dashboard`,
     });
     setLoading(false);
@@ -37,19 +30,19 @@ export default function RegisterClient() {
         icon={<GoogleIcon />}
         text="Continue with Google"
         variant="primary"
-        onClick={() => handleLogin('google', setLoadingGoogle)}
+        onClick={() => handleLogin("google", setLoadingGoogle)}
       />
       <Button
         loading={loadingGitHub}
         icon={<GitHubIcon />}
         text="Continue with GitHub"
-        onClick={() => handleLogin('github', setLoadingGitHub)}
+        onClick={() => handleLogin("github", setLoadingGitHub)}
         variant="secondary"
       />
       <div>
         <p className="text-sm text-gray-500">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Link
             href="/login"
             className="font-medium text-white/70 hover:text-white"

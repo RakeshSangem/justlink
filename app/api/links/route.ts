@@ -1,18 +1,16 @@
-import { auth } from '@/auth';
-import { db } from '@/db';
-import { NextResponse } from 'next/server';
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { NextResponse } from "next/server";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 // GET /api/links - Get all links
 export const GET = auth(async (req) => {
   const userInfo = req?.auth;
 
-  console.log('userInfo', userInfo);
-
   try {
     if (!userInfo) {
-      return NextResponse.json('Unauthorized', {
+      return NextResponse.json("Unauthorized", {
         status: 401,
       });
     }
@@ -26,15 +24,11 @@ export const GET = auth(async (req) => {
       },
     });
 
-    console.log('userId', userId);
-
     const links = await db.link.findMany({
       where: {
         userId: userId?.id,
       },
     });
-
-    console.log('links router:', links);
 
     return NextResponse.json(links);
   } catch (error) {
@@ -50,7 +44,7 @@ export const POST = auth(async (req) => {
     const body = await req.json();
 
     if (!userInfo) {
-      return NextResponse.json('Unauthorized', {
+      return NextResponse.json("Unauthorized", {
         status: 401,
       });
     }
@@ -74,6 +68,6 @@ export const POST = auth(async (req) => {
 
     return NextResponse.json(newLink, { status: 201 });
   } catch (error) {
-    return NextResponse.json('Internal Server Error', { status: 500 });
+    return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }) as any;

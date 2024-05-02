@@ -1,6 +1,6 @@
-import Button from '../button/Button';
-import Modal from './Modal';
-import { useModal } from './ModalProvider';
+import Button from "../button/Button";
+import Modal from "./Modal";
+import { useModal } from "./ModalProvider";
 
 export default function AddEditLinkModal() {
   const { isOpen, closeModal } = useModal();
@@ -11,44 +11,33 @@ export default function AddEditLinkModal() {
     </Modal>
   );
 }
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SettingsModalContent = () => {
   const [link, setLink] = useState({
-    title: '',
-    url: '',
+    title: "",
+    url: "",
   });
 
   const [loading, setLoading] = useState(false);
   const { closeModal } = useModal();
 
   const handleSave = async () => {
-    // Simulate API call
     setLoading(true);
-    // setTimeout(() => {
-    //   // Assume the API call is successful after 2 seconds
-    //   setLoading(false);
-    //   // closing the modal after successful API call
-    //   closeModal();
-    // }, 2000);
-
-    // sent post  request to server api/links
     try {
-      const res = await fetch('/api/links', {
-        method: 'POST',
+      const res = await fetch("/api/links", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(link),
       });
-
-      console.log('response from the function', res);
 
       if (res.ok) {
         setLoading(false);
         closeModal();
       } else {
-        throw new Error('Failed to save link');
+        throw new Error("Failed to save link");
       }
     } catch (error) {
       console.error(error);
@@ -109,5 +98,3 @@ const SettingsModalContent = () => {
     </div>
   );
 };
-
-// export default SettingsModalContent;

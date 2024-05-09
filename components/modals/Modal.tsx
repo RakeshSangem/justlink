@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer } from "vaul";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import Close from "../icons/Close";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ModalProps {
   isOpen: boolean;
@@ -64,25 +65,56 @@ export default function Modal({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/20 z-40 backdrop-blur-sm" />
-        <Dialog.Content className="animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-zinc-800 bg-[#111111] rounded-md shadow-xl">
-          {title && (
-            <Dialog.Title className=" text-white font-semibold bg-black border-b border-white/20 w-full p-5">
-              {title}
-              <button
-                onClick={onClose}
-                type="button"
-                className="flex absolute top-3 right-3 h-7 w-7 p-1 items-center justify-center rounded-full hover:bg-[#222222]"
+      <AnimatePresence>
+        {isOpen && (
+          <Dialog.Portal forceMount>
+            <Dialog.Overlay className="fixed inset-0 bg-black/20 z-40 backdrop-blur-[4px] transition-all duration-300 ease-in-out" />
+            <Dialog.Content
+              className="animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-zinc-800 bg-[#111111] rounded-md shadow-xl"
+              asChild
+            >
+              <motion.div
+                initial={{ translateY: -10, opacity: 0.5 }}
+                animate="opened"
+                exit="closed"
+                variants={{
+                  opened: {
+                    opacity: 1,
+                    translateY: 0,
+                    transition: {
+                      ease: "easeOut",
+                      duration: 0.1,
+                    },
+                  },
+                  closed: {
+                    opacity: 0,
+                    translateY: -50,
+                    transition: {
+                      duration: 0.2,
+                    },
+                  },
+                }}
               >
-                <Close />
-              </button>
-            </Dialog.Title>
-          )}
-          {children}
-          <Dialog.Close />
-        </Dialog.Content>
-      </Dialog.Portal>
+                {title && (
+                  <Dialog.Title className=" text-white font-semibold bg-black border-b border-white/20 w-full p-5">
+                    {title}
+                    <button
+                      onClick={onClose}
+                      type="button"
+                      className="flex absolute top-3 right-3 h-7 w-7 p-1 items-center justify-center rounded-full hover:bg-[#222222]"
+                    >
+                      <Close />
+                    </button>
+                  </Dialog.Title>
+                )}
+                {children}
+
+                <Dialog.Close />
+              </motion.div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        )}
+      </AnimatePresence>
     </Dialog.Root>
   );
 }

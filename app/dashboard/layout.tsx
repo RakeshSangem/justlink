@@ -32,9 +32,9 @@ export default async function DashboardLayout({
           </MaxWidthWrapper>
         </div>
         <MaxWidthWrapper>
-          <div className="grid grid-flow-col grid-cols-5 relative">
+          <div className="grid sm:grid-cols-5 relative">
             {children}
-            <div className="col-span-2 mx-auto">
+            <div className="sm:col-span-2 mx-auto sm:hide">
               <MobileDeviceMockup />
             </div>
           </div>

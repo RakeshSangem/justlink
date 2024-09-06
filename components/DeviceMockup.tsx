@@ -4,13 +4,19 @@ import useLinks from "@/lib/swr/use-links";
 import React, { memo } from "react";
 import { usePathname } from "next/navigation";
 import useUser from "@/lib/swr/useUser";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export default memo(function MobileDeviceMockup() {
   const { links } = useLinks();
   const { user } = useUser();
   const pathname = usePathname();
+  const { isMobile } = useMediaQuery();
 
-  if (pathname === "/dashboard/design" || pathname === "/dashboard") {
+  const allowedPaths = ["/dashboard", "/dashboard/design"];
+
+  const isDashboard = allowedPaths.includes(pathname);
+
+  if (isDashboard && pathname !== "/dashboard/settings" && !isMobile) {
     return (
       <div className="h-[470px] w-[240px] shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm">
         <div className="relative flex h-full w-full flex-col gap-y-2 rounded-[24px] border-[0.2px] border-white/40 bg-white">

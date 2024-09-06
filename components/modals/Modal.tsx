@@ -44,7 +44,7 @@ export default function Modal({
       <Drawer.Root open={isOpen} onClose={onClose} shouldScaleBackground>
         <Drawer.Overlay
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+          className="fixed fadeIn inset-0 z-40 bg-black/20 backdrop-blur-sm"
         />
         <Drawer.Portal>
           <Drawer.Content className="fixed left-0 z-50 right-0 bottom-0 rounded-t-[10px] bg-black border-t border-zinc-700">
@@ -68,9 +68,9 @@ export default function Modal({
       <AnimatePresence>
         {isOpen && (
           <Dialog.Portal forceMount>
-            <Dialog.Overlay className="fixed inset-0 bg-black/20 z-40 backdrop-blur-[4px] transition-all duration-300 ease-in-out" />
+            <Dialog.Overlay className="fixed fadeIn inset-0 bg-black/20 z-40 backdrop-blur-[4px] transition-all duration-300 ease-in-out" />
             <Dialog.Content
-              className="animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-zinc-800 bg-[#111111] rounded-md shadow-xl"
+              className="animate-scale-in fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden shadow-[0_0_20px_-5px_rgba(255,255,255,0.1)] border-[5px] border-zinc-800/10 bg-[#111111] rounded-md"
               asChild
             >
               <motion.div
@@ -88,9 +88,10 @@ export default function Modal({
                   },
                   closed: {
                     opacity: 0,
-                    translateY: -50,
+                    translateY: -10,
                     transition: {
-                      duration: 0.2,
+                      ease: "easeIn",
+                      duration: 0.25,
                     },
                   },
                 }}

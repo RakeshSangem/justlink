@@ -11,24 +11,36 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  username String? @unique
-  email    String  @unique
-  name     String?
-  bio      String?
-  avatar   String?
-  links    Link[]
-  // createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  username      String?      @unique
+  email         String       @unique
+  name          String?
+  bio           String?
+  avatar        String?
+  links         Link[]
+  preferences   Preferences? @relation(fields: [preferencesId], references: [id])
+  createdAt     DateTime?    @db.Timestamp
+  updatedAt     DateTime?    @db.Timestamp
+  preferencesId String?      @db.ObjectId
+}
+
+model Preferences {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  theme            Int     @default(0)
+  analyticsEnabled Boolean
+  darkModeEnabled  Boolean
+  language         String?
+  timezone         String?
+  User             User[]
 }
 
 model Link {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   url       String
-  archived  Boolean @default(false)
-  // createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt
-  createdBy User?   @relation(fields: [userId], references: [id])
-  userId    String? @db.ObjectId
+  archived  Boolean   @default(false)
+  createdAt DateTime? @db.Timestamp
+  updatedAt DateTime? @db.Timestamp
+  createdBy User?     @relation(fields: [userId], references: [id])
+  userId    String?   @db.ObjectId
 }

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
-import { auth } from '@/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/db";
+import { auth } from "@/auth";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 // GET /api/user/[slug] - Get a user by their username
 export async function GET(
@@ -13,11 +13,14 @@ export async function GET(
 
   const user = await db.user.findUnique({
     where: { username: slug },
-    include: { links: true },
+    include: {
+      links: true,
+      preferences: true,
+    },
   });
 
   if (!user) {
-    return Response.json({ error: 'User not found' }, { status: 404 });
+    return Response.json({ error: "User not found" }, { status: 404 });
   }
 
   return NextResponse.json({ user });
@@ -28,7 +31,7 @@ export const PUT = async (
   req: Request,
   { params }: { params: { slug: string } }
 ) => {
-  if (req.method === 'PUT') {
+  if (req.method === "PUT") {
     try {
       const { slug } = params;
 
@@ -42,7 +45,7 @@ export const PUT = async (
 
       if (!user) {
         return NextResponse.json(
-          { message: 'User not found!' },
+          { message: "User not found!" },
           { status: 404 }
         );
       }
@@ -59,12 +62,12 @@ export const PUT = async (
       });
 
       return NextResponse.json(
-        { updatedUser, message: 'User updated successfully!' },
+        { updatedUser, message: "User updated successfully!" },
         { status: 200 }
       );
     } catch (error) {
       return NextResponse.json(
-        { message: 'Error updating user!' },
+        { message: "Error updating user!" },
         { status: 500 }
       );
     }

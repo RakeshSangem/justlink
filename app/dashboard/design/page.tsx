@@ -11,7 +11,7 @@ export default async function Page() {
   }
 
   return (
-    <section className="relative w-full mx-auto px-2 col-span-3 sm:px-8 flex">
+    <section className="relative w-full mx-auto px-2 col-span-5 sm:col-span-3 sm:px-8 flex">
       <div className="py-10 flex flex-col gap-y-4 w-full flex-1">
         <DesignClient />
       </div>

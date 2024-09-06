@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { isValidElement, useEffect, useState } from "react";
 
 import useLinks from "@/lib/swr/use-links";
 import { toast } from "sonner";
@@ -19,10 +19,13 @@ export default function AddLinkModal({
   title = "Add link", // Default title if not provided
 }: AddLinkModalProps) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { mutate } = useLinks();
   const [link, setLink] = useState({
     title: "",
     url: "",
+    sslEnable: false,
+    sslEnabled_2: "",
   });
 
   const handleFormSubmission = async () => {
@@ -57,6 +60,27 @@ export default function AddLinkModal({
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   const isValid = isUrlValid(link.url);
+
+  //   if (!isValid) {
+  //     setError("Invalid url");
+  //   } else {
+  //     setError("");
+  //   }
+  // }, [link.url]);
+
+  const checkUrlValid = () => {
+    console.log("blur fucntion calle");
+
+    if (!isUrlValid(link.url)) {
+      console.log("inside if");
+      setError("Invalid url");
+    } else {
+      setError("");
     }
   };
 
@@ -96,6 +120,7 @@ export default function AddLinkModal({
             URL
           </label>
           <input
+            onBlur={checkUrlValid}
             className="border-white/30 bg-transparent text-white placeholder-white/30 border focus:border-white/60 focus:ring-gray-500 block w-full rounded-md focus:outline-none px-3 py-2 sm:text-sm"
             type="text"
             name="url"
@@ -107,6 +132,32 @@ export default function AddLinkModal({
             placeholder="https://juslink.io"
           />
         </div>
+        <div className="flex gap-x-2">
+          <label htmlFor="checkbox">SSL enabled</label>
+          <input
+            type="checkbox"
+            name="checkbox"
+            value={setLink(...link, (link.sslEnable = true))}
+          />
+        </div>
+        <div className="flex gap-x-2">
+          <fieldset>
+            <label htmlFor="radio1">Yes</label>
+            <input
+              type="radio"
+              id="radio1"
+              name="radio"
+              value={link.sslEnabled_2}
+            />
+            <label htmlFor="radio2">Yes</label>
+            <input
+              type="radio"
+              id="radio2"
+              name="radio"
+              value={link.sslEnabled_2}
+            />
+          </fieldset>
+        </div>
         <div className="flex">
           <Button
             type="submit"
@@ -117,6 +168,7 @@ export default function AddLinkModal({
             loading={loading}
           />
         </div>
+        <p>{error}</p>
       </form>
     </Modal>
   );
